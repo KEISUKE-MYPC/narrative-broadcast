@@ -1,0 +1,19 @@
+# secrets — 絶対にコミットしない
+.env
+.env.*
+!.env.example
+
+# OS
+.DS_Store
+
+# editors
+.vscode/
+.idea/
+
+# node (将来のツール用)
+node_modules/
+
+# python caches (将来のスクリプト用)
+__pycache__/
+*.pyc
+.venv/
