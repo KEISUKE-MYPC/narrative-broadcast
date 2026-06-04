@@ -156,6 +156,29 @@ curl -s https://api.santiment.net/graphql \
 
 ---
 
+## 7. リモート自動実行（routine用・自己完結手順）
+
+毎日 JST 9:00 のリモートルーチンが従う手順。リモートは**ローカルの`.env`/ローカルMCP/スキルにアクセスできない**ため、ここに自己完結で書く。Santiment(B3)とCoinalyze(B5ポジション)は鍵不在のため**省略**＝4ソース下書き。
+
+前提: GitHub clone済み／CoinGecko・Glassnode の MCPコネクタ接続済み。
+
+1. **ベースライン読込**: `articles/INDEX.md` の最新行から前回の支配ナラティブ・強度を取り、t=0とする。
+2. **データ取得（4ソース）**:
+   - CoinGecko: コネクタ、または
+     `curl -s "https://api.coingecko.com/api/v3/coins/bitcoin?localization=false&tickers=false&market_data=true&community_data=false&developer_data=false"`
+     ＋ `curl -s "https://api.coingecko.com/api/v3/global"`
+   - Glassnode: **コネクタ**で `mvrv_z_score` / `sopr`(indicators) / `lth_sum`(supply)（直近30日・日足、a=BTC, i=24h）
+   - Polymarket: `curl -s "https://gamma-api.polymarket.com/public-search?q=bitcoin&limit_per_type=8"` ＋ 年末イベント `what-price-will-bitcoin-hit-before-2027`
+   - DefiLlama: `curl -s "https://stablecoins.llama.fi/stablecoins?includePrices=false"`
+3. **下書き生成**: §1ガードレール厳守・`articles/_template.md`準拠の6h構成。記事冒頭に注記:
+   `> ⚠️ 自動下書き｜4ソース（B3 Santiment / B5 Coinalyze 未取得）｜要レビュー`
+4. **保存**: `articles/YYYY/MM/YYYY-MM-DD-HHmm-6h-btc.DRAFT.md`（DRAFTサフィックスで未公開を明示）。
+5. **INDEX追記**: 1行追加（状態=draft、ファイルリンク）。
+6. **コミット**: `git add -A && git commit -m "draft: 6h分析 YYYY-MM-DD (auto)" && git push`。**公開はしない**。
+7. 断定/価格予想/売買助言は禁止、免責文必須、スコア系は使わない（§1）。
+
+---
+
 ## 6. 関連
 
 - 方法論: `narrative-analysis` スキル
