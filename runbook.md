@@ -158,23 +158,27 @@ curl -s https://api.santiment.net/graphql \
 
 ## 7. リモート自動実行（routine用・自己完結手順）
 
-毎日 JST 9:00 のリモートルーチンが従う手順。リモートは**ローカルの`.env`/ローカルMCP/スキルにアクセスできない**ため、ここに自己完結で書く。Santiment(B3)とCoinalyze(B5ポジション)は鍵不在のため**省略**＝4ソース下書き。
+毎日 JST 9:00 のリモートルーチン（Anthropicクラウド）が従う手順。リモートは**ローカルの`.env`/ローカルMCP/スキルにアクセスできない**が、鍵は**クラウド環境の環境変数**で渡せるため**6ソース全部使う**。
 
-前提: GitHub clone済み／CoinGecko・Glassnode の MCPコネクタ接続済み。
+前提（Web UIで設定済みであること）:
+- リポジトリ: `KEISUKE-MYPC/narrative-broadcast` をクローン
+- コネクタ含む: CoinGecko / Glassnode（claude.ai接続済み）
+- 環境変数: `COINALYZE_API_KEY` / `SANTIMENT_API_KEY`
+- ネットワーク許可ドメイン（curl用）: `api.santiment.net` `api.coinalyze.net` `gamma-api.polymarket.com` `stablecoins.llama.fi`（CoinGecko/Glassnodeはコネクタ経由なので許可不要）
 
-1. **ベースライン読込**: `articles/INDEX.md` の最新行から前回の支配ナラティブ・強度を取り、t=0とする。
-2. **データ取得（4ソース）**:
-   - CoinGecko: コネクタ、または
-     `curl -s "https://api.coingecko.com/api/v3/coins/bitcoin?localization=false&tickers=false&market_data=true&community_data=false&developer_data=false"`
-     ＋ `curl -s "https://api.coingecko.com/api/v3/global"`
-   - Glassnode: **コネクタ**で `mvrv_z_score` / `sopr`(indicators) / `lth_sum`(supply)（直近30日・日足、a=BTC, i=24h）
-   - Polymarket: `curl -s "https://gamma-api.polymarket.com/public-search?q=bitcoin&limit_per_type=8"` ＋ 年末イベント `what-price-will-bitcoin-hit-before-2027`
+手順:
+1. **ベースライン**: `articles/INDEX.md` 最新行 → t=0。
+2. **データ取得（6ソース）**:
+   - CoinGecko: **コネクタ**で 価格/24h/7d/30d/ATH/ドミナンス＋セクター騰落
+   - Glassnode: **コネクタ**で `mvrv_z_score`/`sopr`/`lth_sum`（30日日足, a=BTC, i=24h）
+   - Santiment: `curl -s https://api.santiment.net/graphql -H "Authorization: Apikey $SANTIMENT_API_KEY" -H "Content-Type: application/json" -d '{"query":"{ getTrendingWords(size:12, from:\"utc_now-2d\", to:\"utc_now\", interval:\"1d\"){ datetime topWords{ word score } } }"}'`
+   - Coinalyze: `curl -s "https://api.coinalyze.net/v1/funding-rate?api_key=$COINALYZE_API_KEY&symbols=BTCUSDT_PERP.A,BTCUSD_PERP.A,BTC-PERPETUAL.2,BTCUSDT_PERP.4,BTCUSDT_PERP.F"` ＋ `open-interest`(convert_to_usd=true) ＋ `long-short-ratio-history`(fields r/l/s, from=now-21600)
+   - Polymarket: `curl -s "https://gamma-api.polymarket.com/public-search?q=bitcoin&limit_per_type=8"`（年末オッズも gamma-api の events から）
    - DefiLlama: `curl -s "https://stablecoins.llama.fi/stablecoins?includePrices=false"`
-3. **下書き生成**: §1ガードレール厳守・`articles/_template.md`準拠の6h構成。記事冒頭に注記:
-   `> ⚠️ 自動下書き｜4ソース（B3 Santiment / B5 Coinalyze 未取得）｜要レビュー`
-4. **保存**: `articles/YYYY/MM/YYYY-MM-DD-HHmm-6h-btc.DRAFT.md`（DRAFTサフィックスで未公開を明示）。
-5. **INDEX追記**: 1行追加（状態=draft、ファイルリンク）。
-6. **コミット**: `git add -A && git commit -m "draft: 6h分析 YYYY-MM-DD (auto)" && git push`。**公開はしない**。
+3. **下書き生成**: §1ガードレール厳守・§3早見表で解釈・`articles/_template.md`準拠の6h構成。冒頭注記: `> ⚠️ 自動下書き｜6ソース｜要レビュー`
+4. **保存**: `articles/YYYY/MM/YYYY-MM-DD-HHmm-6h-btc.DRAFT.md`
+5. **INDEX追記**: 1行追加（状態=draft）。
+6. **コミット**: `git add -A && git commit -m "draft: 6h分析 YYYY-MM-DD (auto)"` → ルーチン既定の `claude/` ブランチへpush（mainは保護＝レビューゲート。レビュー後にmergeで公開）。
 7. 断定/価格予想/売買助言は禁止、免責文必須、スコア系は使わない（§1）。
 
 ---
