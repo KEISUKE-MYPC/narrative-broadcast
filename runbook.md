@@ -107,9 +107,10 @@ curl -s https://api.santiment.net/graphql \
 読み: トレンド語を「弱気フレーム / 反転フレーム / KOL名 / 銘柄ノイズ」に仕分け。
 語彙の創発（6ヶ月前に無かった語）と頻度の方向が軸の証拠になる。
 
-### 2.6 セクター資金（DefiLlama・WebFetch・鍵不要）
-- ステーブル供給: `https://stablecoins.llama.fi/stablecoins?includePrices=false`
-読み: ステーブル総供給の増減＝クリプトへの資金流出入の代理。2026は「ステーブル拡大」が主要中層ナラティブ。
+### 2.6 セクター資金（DefiLlama・WebFetch/curl・鍵不要）
+- **総供給（号またぎ比較の正準値）**: `https://stablecoins.llama.fi/stablecoincharts/all` → 最新の `totalCirculatingUSD.peggedUSD` を総供給とし、約7日前の同値から W/W 変化を出す。**毎号この系列を固定で使う**（`/stablecoins`の単純合算は対象数で揺れるので総供給には使わない）。
+- 内訳（USDT/USDC等の色付け）: `https://stablecoins.llama.fi/stablecoins?includePrices=false`
+読み: 総供給の**増減方向**＝クリプトへの資金流出入の代理（絶対額より方向を重視）。2026は「ステーブル拡大」が主要中層ナラティブ。
 
 ---
 
@@ -174,7 +175,7 @@ curl -s https://api.santiment.net/graphql \
    - Santiment: `curl -s https://api.santiment.net/graphql -H "Authorization: Apikey $SANTIMENT_API_KEY" -H "Content-Type: application/json" -d '{"query":"{ getTrendingWords(size:12, from:\"utc_now-2d\", to:\"utc_now\", interval:\"1d\"){ datetime topWords{ word score } } }"}'`
    - Coinalyze: `curl -s "https://api.coinalyze.net/v1/funding-rate?api_key=$COINALYZE_API_KEY&symbols=BTCUSDT_PERP.A,BTCUSD_PERP.A,BTC-PERPETUAL.2,BTCUSDT_PERP.4,BTCUSDT_PERP.F"` ＋ `open-interest`(convert_to_usd=true) ＋ `long-short-ratio-history`(fields r/l/s, from=now-21600)
    - Polymarket: `curl -s "https://gamma-api.polymarket.com/public-search?q=bitcoin&limit_per_type=8"`。**年末価格オッズは "what price will bitcoin hit in 2026"（slug: what-price-will-bitcoin-hit-before-2027）を使う**。ネタ/novelty市場（例: "$1M before GTA VI"）は強気指標に使わない
-   - DefiLlama: `curl -s "https://stablecoins.llama.fi/stablecoins?includePrices=false"`
+   - DefiLlama: **総供給は号またぎ正準値を使う**。`curl -s "https://stablecoins.llama.fi/stablecoincharts/all"` の最新 `totalCirculatingUSD.peggedUSD` を「総供給」とし、約7日前の同値から W/W 変化を算出（`/stablecoins`の合算は対象数で揺れるため総供給に使わない）。内訳（USDT/USDC等）が要る時のみ `https://stablecoins.llama.fi/stablecoins?includePrices=false`
 3. **下書き生成**: §1ガードレール厳守・§3早見表で解釈・`articles/_template.md`準拠の6h構成。冒頭注記: `> ⚠️ 自動下書き｜6ソース｜要レビュー`
 4. **保存**: `articles/YYYY/MM/YYYY-MM-DD-HHmm-6h-btc.DRAFT.md`
 5. **INDEX追記**: 1行追加（状態=draft）。
