@@ -134,7 +134,7 @@ a { color: inherit; text-decoration: none; }
 }
 .section-title .ja { color: var(--text); }
 .chart-frame { background: var(--surface); border: 1px solid var(--hair); border-radius: 12px;
-  padding: var(--space-lg) var(--space-md) var(--space-sm); }
+  padding: var(--space-lg) var(--space-md) var(--space-sm); max-width: 960px; }
 
 /* ---------- card grid (article list) ---------- */
 .card-grid {
