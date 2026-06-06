@@ -1,5 +1,6 @@
 import { getArticleSlugs, getArticleBySlug } from '@/lib/articles';
-import { renderMarkdown } from '@/lib/markdown';
+import { renderMarkdown, extractToc } from '@/lib/markdown';
+import { TableOfContents } from '@/components/TableOfContents';
 import { notFound } from 'next/navigation';
 
 export function generateStaticParams() {
@@ -15,12 +16,17 @@ export default async function ArticlePage({
   const article = getArticleBySlug(slug.join('/'));
   if (!article) notFound();
   const html = await renderMarkdown(article.raw);
+  const toc = extractToc(html);
+
   return (
-    <div className="container article-wrap">
-      <p className="see-all" style={{ marginBottom: 'var(--space-xl)' }}>
-        <a href="/archive">← アーカイブ</a>
-      </p>
-      <article className="article" dangerouslySetInnerHTML={{ __html: html }} />
+    <div className="container article-layout">
+      <div className="article-col">
+        <p className="back-link">
+          <a href="/archive">← アーカイブ</a>
+        </p>
+        <article className="article" dangerouslySetInnerHTML={{ __html: html }} />
+      </div>
+      <TableOfContents items={toc} />
     </div>
   );
 }
