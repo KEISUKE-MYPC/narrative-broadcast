@@ -176,10 +176,10 @@ curl -s https://api.santiment.net/graphql \
    - Coinalyze: `curl -s "https://api.coinalyze.net/v1/funding-rate?api_key=$COINALYZE_API_KEY&symbols=BTCUSDT_PERP.A,BTCUSD_PERP.A,BTC-PERPETUAL.2,BTCUSDT_PERP.4,BTCUSDT_PERP.F"` ＋ `open-interest`(convert_to_usd=true) ＋ `long-short-ratio-history`(fields r/l/s, from=now-21600)
    - Polymarket: `curl -s "https://gamma-api.polymarket.com/public-search?q=bitcoin&limit_per_type=8"`。**年末価格オッズは "what price will bitcoin hit in 2026"（slug: what-price-will-bitcoin-hit-before-2027）を使う**。ネタ/novelty市場（例: "$1M before GTA VI"）は強気指標に使わない
    - DefiLlama: **総供給は号またぎ正準値を使う**。`curl -s "https://stablecoins.llama.fi/stablecoincharts/all"` の最新 `totalCirculatingUSD.peggedUSD` を「総供給」とし、約7日前の同値から W/W 変化を算出（`/stablecoins`の合算は対象数で揺れるため総供給に使わない）。内訳（USDT/USDC等）が要る時のみ `https://stablecoins.llama.fi/stablecoins?includePrices=false`
-3. **下書き生成**: §1ガードレール厳守・§3早見表で解釈・`articles/_template.md`準拠の6h構成。冒頭注記: `> ⚠️ 自動下書き｜6ソース｜要レビュー`
-4. **保存**: `articles/YYYY/MM/YYYY-MM-DD-HHmm-6h-btc.DRAFT.md`
-5. **INDEX追記**: 1行追加（状態=draft）。
-6. **コミット**: `git add -A && git commit -m "draft: 6h分析 YYYY-MM-DD (auto)"` → ルーチン既定の `claude/` ブランチへpush（mainは保護＝レビューゲート。レビュー後にmergeで公開）。
+3. **記事生成**: §1ガードレール厳守・§3早見表で解釈・`articles/_template.md`準拠の6h構成。冒頭注記: `> ⚠️ 自動生成｜6ソース`（main直接公開のため「下書き」表記は外す）
+4. **保存**: `articles/YYYY/MM/YYYY-MM-DD-HHmm-6h-btc.md`（DRAFTサフィックスなし）
+5. **INDEX追記**: 1行追加（状態=published）。
+6. **コミット＆公開**: `git add -A && git commit -m "publish: 6h分析 YYYY-MM-DD (auto)" && git push origin main`（**mainへ直接公開**。次回実行がこのINDEXをt=0に読むため baseline が前進する）。
 7. 断定/価格予想/売買助言は禁止、免責文必須、スコア系は使わない（§1）。
 
 ---
