@@ -1,0 +1,23 @@
+:root { color-scheme: light dark; }
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  font-family: system-ui, -apple-system, "Hiragino Sans", "Noto Sans JP", sans-serif;
+  line-height: 1.8;
+}
+.site-header {
+  display: flex; gap: 16px; justify-content: space-between; align-items: baseline;
+  max-width: 760px; margin: 0 auto; padding: 16px;
+}
+.site-title { font-weight: 700; text-decoration: none; }
+.site-main { max-width: 760px; margin: 0 auto; padding: 8px 16px 64px; }
+.site-footer { max-width: 760px; margin: 0 auto; padding: 24px 16px; font-size: 12px; opacity: 0.7; }
+.article :is(table) { border-collapse: collapse; width: 100%; font-size: 14px; }
+.article :is(th, td) { border: 1px solid #8884; padding: 6px 8px; text-align: left; }
+.article blockquote { border-left: 3px solid #e0803a; margin: 1em 0; padding: 0.2em 1em; opacity: 0.85; }
+.article-list { list-style: none; padding: 0; }
+.article-card { margin: 0 0 16px; }
+.article-card a { display: flex; flex-direction: column; gap: 4px; text-decoration: none; color: inherit; }
+.article-card .meta { font-size: 12px; opacity: 0.7; }
+.article-card .narrative { font-weight: 600; }
+.article-card .keydata { font-size: 12px; opacity: 0.75; }

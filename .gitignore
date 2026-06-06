@@ -10,8 +10,11 @@
 .vscode/
 .idea/
 
-# node (将来のツール用)
+# node / next
 node_modules/
+/.next
+/out
+next-env.d.ts
 
 # python caches (将来のスクリプト用)
 __pycache__/
