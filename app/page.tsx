@@ -10,29 +10,39 @@ export default function Home() {
     strength: r.strength,
     narrative: r.narrative,
   }));
-  const recent = rows.slice(0, 10);
+  const recent = rows.slice(0, 8);
+
   return (
     <>
-      <section className="hero">
-        <p className="hero-label">最新の分析</p>
-        {latest && (
+      {latest && (
+        <section className="hero">
+          <p className="eyebrow">最新の分析</p>
           <a className="hero-link" href={`/articles/${latest.slug}`}>
             <h1>{latest.narrative}</h1>
-            <p className="meta">
-              {latest.datetime}・強度 {latest.strength}/10（{latest.strengthDelta}）
-            </p>
           </a>
-        )}
-      </section>
+          <p className="meta">
+            <time>{latest.datetime} JST</time>
+            <span className="strength">
+              強度 {latest.strength}
+              <span className="denom">/10</span>
+            </span>
+            <span className="delta">前回比 {latest.strengthDelta}</span>
+          </p>
+        </section>
+      )}
+
       <section className="chart">
-        <h2>ナラティブ遷移（強度推移）</h2>
-        <NarrativeChart data={chart} />
+        <h2 className="section-title">ナラティブ遷移 — 強度の推移</h2>
+        <div className="chart-frame">
+          <NarrativeChart data={chart} />
+        </div>
       </section>
+
       <section className="recent">
-        <h2>最近の記事</h2>
+        <h2 className="section-title">最近の分析</h2>
         <ArticleList rows={recent} />
-        <p>
-          <a href="/archive">すべて見る →</a>
+        <p className="see-all">
+          <a href="/archive">すべての分析を見る →</a>
         </p>
       </section>
     </>

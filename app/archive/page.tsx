@@ -5,7 +5,7 @@ export default function Archive() {
   const rows = getIndexRows(); // INDEXは新しい順
   return (
     <>
-      <h1>アーカイブ</h1>
+      <h1 className="page-title">アーカイブ</h1>
       <ArticleList rows={rows} />
     </>
   );
