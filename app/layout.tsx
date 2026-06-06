@@ -4,7 +4,7 @@ import './globals.css';
 export const metadata = {
   title: 'BTCナラティブ分析',
   description:
-    'Bitcoinのナラティブ（市場参加者の認知・物語）を6時間ごとに構造分析する、観測者の夜報。',
+    'Bitcoinのナラティブ（市場参加者の認知・物語）を6時間ごとに構造分析する読み物。',
 };
 
 export default function RootLayout({ children }: { children: ReactNode }) {
@@ -14,7 +14,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         <link
-          href="https://fonts.googleapis.com/css2?family=Murecho:wght@400;500;600;700&family=Shippori+Mincho:wght@500;700;800&display=swap"
+          href="https://fonts.googleapis.com/css2?family=Murecho:wght@400;500;600;700&family=Zen+Kaku+Gothic+New:wght@500;700;900&display=swap"
           rel="stylesheet"
         />
       </head>
@@ -25,7 +25,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
               <span className="wordmark-mark">観</span>
               <span className="wordmark-text">
                 BTCナラティブ分析
-                <span className="wordmark-sub">観測者の夜報</span>
+                <span className="wordmark-sub">市場の物語を観測する</span>
               </span>
             </a>
             <nav className="site-nav">

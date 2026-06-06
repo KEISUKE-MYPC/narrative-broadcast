@@ -6,11 +6,11 @@ export function ArticleList({ rows }: { rows: IndexRow[] }) {
       {rows.map((r) => (
         <li key={r.slug} className="article-card">
           <a href={`/articles/${r.slug}`}>
-            <span className="narrative">{r.narrative}</span>
-            <span className="card-strength">
-              {r.strength}
-              <span className="denom">/10</span>
+            <span className="card-badge">
+              <span className="num">{r.strength}</span>
+              <span className="lbl">強度</span>
             </span>
+            <span className="narrative">{r.narrative}</span>
             <span className="meta">
               {r.datetime} JST・{r.cycle}・前回比 {r.strengthDelta}
             </span>

@@ -11,8 +11,8 @@ import {
 
 export type ChartPoint = { datetime: string; strength: number; narrative: string };
 
-const ACCENT = '#cf9a55'; // オークル（--accent 相当）
-const TICK = 'rgba(232, 226, 214, 0.42)';
+const ACCENT = '#2f7e95'; // 落ち着いた青〜ティール（--accent 相当）
+const TICK = 'rgba(60, 72, 84, 0.5)';
 
 export function NarrativeChart({ data }: { data: ChartPoint[] }) {
   // ResponsiveContainerはSSR時に寸法を測れないため、マウント後のみ描画する
@@ -26,12 +26,13 @@ export function NarrativeChart({ data }: { data: ChartPoint[] }) {
     <div style={{ width: '100%', height: 240 }}>
       {mounted && (
         <ResponsiveContainer>
-          <LineChart data={series} margin={{ top: 10, right: 16, bottom: 4, left: -18 }}>
+          <LineChart data={series} margin={{ top: 12, right: 16, bottom: 4, left: 0 }}>
             <XAxis
               dataKey="datetime"
               tick={{ fontSize: 10, fill: TICK }}
               tickLine={false}
-              axisLine={{ stroke: 'rgba(232,226,214,0.16)' }}
+              axisLine={{ stroke: 'rgba(60,72,84,0.18)' }}
+              tickMargin={8}
               hide={series.length > 14}
             />
             <YAxis
@@ -40,18 +41,19 @@ export function NarrativeChart({ data }: { data: ChartPoint[] }) {
               tick={{ fontSize: 10, fill: TICK }}
               tickLine={false}
               axisLine={false}
-              width={28}
+              width={30}
             />
             <Tooltip
-              cursor={{ stroke: 'rgba(232,226,214,0.2)', strokeWidth: 1 }}
+              cursor={{ stroke: 'rgba(60,72,84,0.25)', strokeWidth: 1 }}
               contentStyle={{
-                background: 'oklch(0.225 0.012 70)',
-                border: '1px solid oklch(0.33 0.012 70)',
-                borderRadius: 4,
+                background: '#fff',
+                border: '1px solid oklch(0.90 0.006 230)',
+                borderRadius: 8,
                 fontSize: 12,
-                color: 'oklch(0.925 0.012 85)',
+                color: 'oklch(0.30 0.012 235)',
+                boxShadow: '0 4px 16px rgba(40,55,70,0.10)',
               }}
-              labelStyle={{ color: 'rgba(232,226,214,0.6)', marginBottom: 2 }}
+              labelStyle={{ color: 'oklch(0.50 0.012 235)', marginBottom: 2 }}
               formatter={(v) => [`強度 ${v}/10`, '']}
               labelFormatter={(l) => String(l)}
             />
@@ -59,7 +61,7 @@ export function NarrativeChart({ data }: { data: ChartPoint[] }) {
               type="monotone"
               dataKey="strength"
               stroke={ACCENT}
-              strokeWidth={2}
+              strokeWidth={2.5}
               dot={{ r: 3, fill: ACCENT, strokeWidth: 0 }}
               activeDot={{ r: 5, fill: ACCENT, strokeWidth: 0 }}
             />
