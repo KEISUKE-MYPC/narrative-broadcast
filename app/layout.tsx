@@ -42,7 +42,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
               本サイトは情報提供を目的としたものであり、投資助言ではありません。価格予想・売買助言ではなく、ナラティブ（認知）の構造分析です。
             </p>
             <p className="colophon">
-              6時間ごとに自動生成・公開。データ：CoinGecko / Glassnode / Santiment / Coinalyze / Polymarket / DefiLlama。
+              データ：CoinGecko / Glassnode / Santiment / Coinalyze / Polymarket / DefiLlama
             </p>
           </div>
         </footer>
