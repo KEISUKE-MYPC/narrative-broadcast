@@ -54,7 +54,7 @@ a { color: inherit; text-decoration: none; }
 }
 .masthead-inner {
   max-width: var(--maxw); margin: 0 auto; padding: var(--space-md) var(--space-xl);
-  display: flex; align-items: center; justify-content: space-between; gap: var(--space-lg);
+  display: flex; align-items: center; justify-content: center; gap: var(--space-lg);
 }
 .wordmark { display: flex; align-items: center; gap: var(--space-md); }
 .wordmark-mark {
