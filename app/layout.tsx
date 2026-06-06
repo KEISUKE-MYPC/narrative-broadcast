@@ -22,15 +22,10 @@ export default function RootLayout({ children }: { children: ReactNode }) {
         <header className="masthead">
           <div className="masthead-inner">
             <a href="/" className="wordmark">
-              <span className="wordmark-mark">観</span>
               <span className="wordmark-text">
-                BTCナラティブ分析
-                <span className="wordmark-sub">市場の物語を観測する</span>
+                narrative-broadcast
               </span>
             </a>
-            <nav className="site-nav">
-              <a href="/archive">アーカイブ</a>
-            </nav>
           </div>
         </header>
 
