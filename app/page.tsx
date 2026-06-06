@@ -10,41 +10,52 @@ export default function Home() {
     strength: r.strength,
     narrative: r.narrative,
   }));
-  const recent = rows.slice(0, 8);
+  const recent = rows.slice(0, 9);
 
   return (
     <>
       {latest && (
-        <section className="hero">
-          <p className="eyebrow">最新の分析</p>
-          <a className="hero-link" href={`/articles/${latest.slug}`}>
-            <h1>{latest.narrative}</h1>
-          </a>
-          <p className="meta">
-            <time>{latest.datetime} JST</time>
-            <span className="strength">
-              強度 {latest.strength}
-              <span className="denom">/10</span>
-            </span>
-            <span className="delta">前回比 {latest.strengthDelta}</span>
-          </p>
+        <section className="hero-band">
+          <div className="hero-inner">
+            <p className="hero-eyebrow">最新の分析</p>
+            <a className="hero-link" href={`/articles/${latest.slug}`}>
+              <h1 className="hero-title">{latest.narrative}</h1>
+            </a>
+            <p className="hero-meta">
+              <time>{latest.datetime} JST</time>
+              <span className="strength">
+                強度 {latest.strength}
+                <span className="denom">/10</span>
+              </span>
+              <span>前回比 {latest.strengthDelta}</span>
+            </p>
+            <p className="hero-cta">
+              <a href={`/articles/${latest.slug}`}>この分析を読む →</a>
+            </p>
+          </div>
         </section>
       )}
 
-      <section className="chart">
-        <h2 className="section-title">ナラティブ遷移 — 強度の推移</h2>
-        <div className="chart-frame">
-          <NarrativeChart data={chart} />
-        </div>
-      </section>
+      <div className="container">
+        <section className="section">
+          <h2 className="section-title">
+            <span className="ja">ナラティブ遷移 — 強度の推移</span>
+          </h2>
+          <div className="chart-frame">
+            <NarrativeChart data={chart} />
+          </div>
+        </section>
 
-      <section className="recent">
-        <h2 className="section-title">最近の分析</h2>
-        <ArticleList rows={recent} />
-        <p className="see-all">
-          <a href="/archive">すべての分析を見る →</a>
-        </p>
-      </section>
+        <section className="section">
+          <h2 className="section-title">
+            <span className="ja">最近の分析</span>
+          </h2>
+          <ArticleList rows={recent} />
+          <p className="see-all">
+            <a href="/archive">すべての分析を見る →</a>
+          </p>
+        </section>
+      </div>
     </>
   );
 }

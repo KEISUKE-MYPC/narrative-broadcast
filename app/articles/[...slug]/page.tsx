@@ -15,5 +15,12 @@ export default async function ArticlePage({
   const article = getArticleBySlug(slug.join('/'));
   if (!article) notFound();
   const html = await renderMarkdown(article.raw);
-  return <article className="article" dangerouslySetInnerHTML={{ __html: html }} />;
+  return (
+    <div className="container article-wrap">
+      <p className="see-all" style={{ marginBottom: 'var(--space-xl)' }}>
+        <a href="/archive">← アーカイブ</a>
+      </p>
+      <article className="article" dangerouslySetInnerHTML={{ __html: html }} />
+    </div>
+  );
 }

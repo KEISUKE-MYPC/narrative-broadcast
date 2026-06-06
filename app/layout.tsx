@@ -19,8 +19,8 @@ export default function RootLayout({ children }: { children: ReactNode }) {
         />
       </head>
       <body>
-        <div className="page">
-          <header className="site-header">
+        <header className="masthead">
+          <div className="masthead-inner">
             <a href="/" className="wordmark">
               <span className="wordmark-mark">観</span>
               <span className="wordmark-text">
@@ -31,17 +31,21 @@ export default function RootLayout({ children }: { children: ReactNode }) {
             <nav className="site-nav">
               <a href="/archive">アーカイブ</a>
             </nav>
-          </header>
-          <main className="site-main">{children}</main>
-          <footer className="site-footer">
+          </div>
+        </header>
+
+        <main className="page-main">{children}</main>
+
+        <footer className="page-foot">
+          <div className="foot-inner">
             <p className="disclaimer">
               本サイトは情報提供を目的としたものであり、投資助言ではありません。価格予想・売買助言ではなく、ナラティブ（認知）の構造分析です。
             </p>
             <p className="colophon">
               6時間ごとに自動生成・公開。データ：CoinGecko / Glassnode / Santiment / Coinalyze / Polymarket / DefiLlama。
             </p>
-          </footer>
-        </div>
+          </div>
+        </footer>
       </body>
     </html>
   );
