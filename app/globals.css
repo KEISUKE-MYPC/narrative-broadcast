@@ -66,9 +66,11 @@ a { color: inherit; text-decoration: none; }
   font-family: var(--font-head); font-weight: 700; font-size: 15px; color: var(--on-ink); }
 .wordmark-sub { font-family: var(--font-body); font-weight: 400; font-size: 11px;
   color: var(--on-ink-dim); letter-spacing: 0.04em; }
+.site-nav { display: flex; align-items: center; gap: var(--space-xs); }
 .site-nav a { font-size: 13px; color: var(--on-ink-dim); font-weight: 500; letter-spacing: 0.04em;
   padding: 6px 10px; border-radius: 6px; transition: background 0.2s, color 0.2s; }
 .site-nav a:hover { color: var(--on-ink); background: oklch(0.30 0.02 240); }
+.site-nav a.is-active { color: var(--on-ink); background: oklch(0.32 0.04 210); }
 
 /* ---------- main wrapper ---------- */
 .page-main { min-height: 50vh; }
@@ -175,8 +177,26 @@ a { color: inherit; text-decoration: none; }
   box-shadow: 0 10px 28px oklch(0 0 0 / 0.40);
   border-color: color-mix(in oklch, var(--accent) 35%, var(--hair));
 }
-.ac-head { display: flex; align-items: center; justify-content: space-between; gap: var(--space-sm); }
+.ac-head { display: flex; align-items: center; gap: var(--space-sm); }
+.ac-head .ac-strength { margin-inline-start: auto; }
 .ac-date { font-size: 12px; color: var(--text-faint); font-variant-numeric: tabular-nums; }
+
+/* 分野チップ（カード／パンくず共通） */
+.cat-chip {
+  display: inline-flex; align-items: center;
+  font-family: var(--font-head); font-weight: 700; font-size: 11px; letter-spacing: 0.06em;
+  color: var(--accent-ink); background: var(--accent-wash);
+  padding: 3px 9px; border-radius: 6px; white-space: nowrap;
+}
+
+/* パンくず（記事ページ） */
+.crumbs {
+  display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-sm);
+  margin: 0 0 var(--space-xl); font-size: 13px; color: var(--text-faint);
+}
+.crumbs a { color: var(--accent-ink); }
+.crumbs a:hover { text-decoration: underline; }
+.crumbs-sep { opacity: 0.5; }
 .ac-strength {
   font-family: var(--font-head); font-weight: 700; font-size: 13px; color: var(--accent-ink);
   background: var(--accent-wash); padding: 3px 10px; border-radius: 999px;

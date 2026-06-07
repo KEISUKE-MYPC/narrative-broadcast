@@ -1,12 +1,16 @@
 import type { IndexRow } from '@/lib/index-parser';
+import { categoryFromSlug } from '@/lib/categories';
 
 export function ArticleList({ rows }: { rows: IndexRow[] }) {
   return (
     <ul className="card-grid">
-      {rows.map((r) => (
+      {rows.map((r) => {
+        const cat = categoryFromSlug(r.slug);
+        return (
         <li key={r.slug} className="analysis-card">
           <a href={`/articles/${r.slug}`}>
             <div className="ac-head">
+              <span className="cat-chip">{cat.short}</span>
               <span className="ac-date">{r.datetime} JST</span>
               <span className="ac-strength">
                 強度 {r.strength}
@@ -18,7 +22,8 @@ export function ArticleList({ rows }: { rows: IndexRow[] }) {
             <span className="ac-delta">前回比 {r.strengthDelta}・{r.cycle}</span>
           </a>
         </li>
-      ))}
+        );
+      })}
     </ul>
   );
 }

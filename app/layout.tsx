@@ -1,4 +1,5 @@
 import type { ReactNode } from 'react';
+import { SiteNav } from '@/components/SiteNav';
 import './globals.css';
 
 export const metadata = {
@@ -26,6 +27,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
                 Narrative Broadcast
               </span>
             </a>
+            <SiteNav />
           </div>
         </header>
 
