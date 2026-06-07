@@ -2,9 +2,9 @@ import type { ReactNode } from 'react';
 import './globals.css';
 
 export const metadata = {
-  title: 'BTCナラティブ分析',
+  title: 'ナラティブ分析',
   description:
-    'Bitcoinのナラティブ（市場参加者の認知・物語）を6時間ごとに構造分析する読み物。',
+    'ナラティブ（市場参加者の認知・物語）を6時間ごとに構造分析する読み物。',
 };
 
 export default function RootLayout({ children }: { children: ReactNode }) {
@@ -23,7 +23,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
           <div className="masthead-inner">
             <a href="/" className="wordmark">
               <span className="wordmark-text">
-                narrative-broadcast
+                Narrative Broadcast
               </span>
             </a>
           </div>
