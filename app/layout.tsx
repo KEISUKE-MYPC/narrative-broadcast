@@ -3,9 +3,9 @@ import { SiteNav } from '@/components/SiteNav';
 import './globals.css';
 
 export const metadata = {
-  title: 'ナラティブ分析',
+  title: 'Narrative Broadcast - 市場参加者の物語と認知を6時間ごとに構造分析するナラティブの観測メディア',
   description:
-    'ナラティブ（市場参加者の認知・物語）を6時間ごとに構造分析する読み物。',
+    '市場参加者の物語と認知を6時間ごとに構造分析するナラティブの観測メディア',
 };
 
 export default function RootLayout({ children }: { children: ReactNode }) {
