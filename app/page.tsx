@@ -18,10 +18,10 @@ export default function Home() {
         <div className="hero-grid" aria-hidden="true" />
         <div className="hero-inner">
           <p className="hero-tagline">
-            市場参加者の物語と認知を6時間ごとに構造分析する、Bitcoinナラティブの観測メディア。
+            市場参加者の物語と認知を6時間ごとに構造分析するナラティブの観測メディア
           </p>
           <h1 className="hero-brand">
-            narrative<span className="hero-brand-dash">-</span>broadcast
+            Narrative Broadcast
           </h1>
           <p className="hero-note">
             <span className="hero-live">
