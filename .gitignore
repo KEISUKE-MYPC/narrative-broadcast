@@ -20,3 +20,6 @@ next-env.d.ts
 __pycache__/
 *.pyc
 .venv/
+
+# Playwright MCP の一時出力（スクショ/ログ/スナップショット）
+.playwright-mcp/
