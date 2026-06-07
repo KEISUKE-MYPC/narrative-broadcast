@@ -209,6 +209,7 @@ curl -s https://api.santiment.net/graphql \
   3. ナビは分野が**2つ以上**になると自動表示される。
 - **フェーズ2（2分野目で着手）**: 分野ページ `/c/<slug>`、トップの分野別レーン、`INDEX.md` の分野別分割、分野ごとのルーチン。
 - 注意: `INDEX.md` と強度チャートは現状 **BTC専用**。他分野を足すときは分野別INDEXへ分割する（それまで他分野はトップ一覧/チャートに混ざらない）。
+- **アイキャッチ／OGP**: 記事のアイキャッチ（カード・記事ヘッダー）とSNS用OG画像は分野＋INDEX行から**自動生成**（`components/Eyecatch.tsx` / `app/og/[...slug]/route.tsx`）。ルーチンの手順追加は不要。新分野は `categories.ts` に `symbol`・`ogAccent`（実hex色）も入れること。
 
 ---
 
