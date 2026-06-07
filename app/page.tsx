@@ -16,22 +16,37 @@ export default function Home() {
     <>
       {latest && (
         <section className="hero-band">
+          <div className="hero-grid" aria-hidden="true" />
           <div className="hero-inner">
-            <p className="hero-eyebrow">最新の分析</p>
+            <div className="hero-status">
+              <span className="hero-live">
+                <span className="hero-live-dot" aria-hidden="true" />
+                ライブ解析
+              </span>
+              <span className="hero-status-sep" aria-hidden="true">/</span>
+              <span className="hero-cadence">{latest.cycle}サイクル</span>
+              <span className="hero-status-sep" aria-hidden="true">/</span>
+              <time className="hero-time">{latest.datetime} JST</time>
+            </div>
+
             <a className="hero-link" href={`/articles/${latest.slug}`}>
               <h1 className="hero-title">{latest.narrative}</h1>
             </a>
-            <p className="hero-meta">
-              <time>{latest.datetime} JST</time>
-              <span className="strength">
-                強度 {latest.strength}
-                <span className="denom">/10</span>
+
+            <div className="hero-rail">
+              <span className="hero-strength">
+                <span className="hero-strength-label">支配的強度</span>
+                <span className="hero-strength-value">
+                  {latest.strength}
+                  <span className="hero-strength-unit">/10</span>
+                </span>
+                <span className="hero-strength-delta">前回比 {latest.strengthDelta}</span>
               </span>
-              <span>前回比 {latest.strengthDelta}</span>
-            </p>
-            <p className="hero-cta">
-              <a href={`/articles/${latest.slug}`}>この分析を読む →</a>
-            </p>
+              <a className="hero-go" href={`/articles/${latest.slug}`}>
+                この分析を読む
+                <span className="hero-go-arrow" aria-hidden="true">→</span>
+              </a>
+            </div>
           </div>
         </section>
       )}

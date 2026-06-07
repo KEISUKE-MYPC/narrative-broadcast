@@ -74,55 +74,101 @@ a { color: inherit; text-decoration: none; }
 .page-main { min-height: 50vh; }
 .container { max-width: var(--maxw); margin: 0 auto; padding: 0 var(--space-xl); }
 
-/* ---------- hero band (dark, full-bleed, atmospheric) ---------- */
+/* ---------- hero band (modern broadcast console, dark) ---------- */
 .hero-band {
   position: relative;
+  isolation: isolate;
   background:
-    radial-gradient(120% 140% at 85% 15%, oklch(0.42 0.08 205 / 0.55), transparent 55%),
-    radial-gradient(90% 120% at 10% 90%, oklch(0.34 0.06 270 / 0.40), transparent 55%),
-    linear-gradient(150deg, var(--ink), var(--ink-2));
+    radial-gradient(135% 120% at 90% -10%, oklch(0.43 0.085 205 / 0.42), transparent 62%),
+    linear-gradient(168deg, var(--ink), var(--ink-2));
   color: var(--on-ink);
   border-bottom: 1px solid oklch(0.30 0.02 240);
   overflow: hidden;
 }
+/* 微細な縦ヘアライン・グリッド（＝データ／計器の含意）。下方向へフェード */
+.hero-grid {
+  position: absolute; inset: 0; z-index: -1; pointer-events: none;
+  background-image: repeating-linear-gradient(
+    90deg,
+    oklch(0.85 0.04 205 / 0.05) 0 1px,
+    transparent 1px 104px
+  );
+  -webkit-mask-image: linear-gradient(180deg, #000 0%, transparent 88%);
+  mask-image: linear-gradient(180deg, #000 0%, transparent 88%);
+}
 .hero-band::after {
-  /* 控えめな「流れる線」モチーフ（ナラティブの波）— 低コントラスト */
-  content: ""; position: absolute; inset: 0;
-  background:
-    radial-gradient(closest-side, oklch(0.7 0.08 205 / 0.10), transparent),
-    radial-gradient(closest-side, oklch(0.7 0.06 260 / 0.08), transparent);
-  background-size: 60% 80%, 50% 70%;
-  background-position: 75% 30%, 15% 80%;
-  background-repeat: no-repeat;
-  pointer-events: none;
+  /* 上端の極細アクセントライン */
+  content: ""; position: absolute; left: 0; right: 0; top: 0; height: 1px; z-index: 1;
+  background: linear-gradient(90deg, transparent, var(--accent-glow) 50%, transparent);
+  opacity: 0.5; pointer-events: none;
 }
 .hero-inner {
   position: relative; z-index: 1;
   max-width: var(--maxw); margin: 0 auto;
-  padding: clamp(40px, 7vw, 80px) var(--space-xl) clamp(36px, 6vw, 64px);
+  padding: clamp(44px, 7vw, 88px) var(--space-xl) clamp(40px, 6vw, 68px);
 }
-.hero-eyebrow {
-  margin: 0 0 var(--space-lg); font-size: 12px; font-weight: 600; letter-spacing: 0.18em;
-  color: var(--accent-glow); text-transform: uppercase;
+
+/* status line（ライブ・サイクル・配信時刻） */
+.hero-status {
+  display: flex; align-items: center; flex-wrap: wrap; gap: var(--space-md);
+  margin: 0 0 var(--space-xl);
+  font-size: 12px; font-weight: 600; letter-spacing: 0.06em;
+  color: var(--on-ink-dim); font-variant-numeric: tabular-nums;
 }
+.hero-live {
+  display: inline-flex; align-items: center; gap: 7px;
+  color: var(--accent-glow); letter-spacing: 0.14em; text-transform: uppercase;
+}
+.hero-live-dot {
+  width: 7px; height: 7px; border-radius: 50%; background: var(--accent-glow);
+  animation: hero-pulse 2.4s ease-out infinite;
+}
+@keyframes hero-pulse {
+  0%   { box-shadow: 0 0 0 0 oklch(0.72 0.10 205 / 0.5); }
+  70%  { box-shadow: 0 0 0 8px oklch(0.72 0.10 205 / 0); }
+  100% { box-shadow: 0 0 0 0 oklch(0.72 0.10 205 / 0); }
+}
+.hero-status-sep { opacity: 0.35; }
+
+/* title */
 .hero-title {
   font-family: var(--font-head); font-weight: 700;
-  font-size: clamp(24px, 3.4vw, 38px); line-height: 1.45; letter-spacing: 0.01em;
-  margin: 0 0 var(--space-lg); max-width: 24ch; text-wrap: balance;
-  color: var(--on-ink); transition: color 0.2s;
+  font-size: clamp(26px, 3.6vw, 40px); line-height: 1.5; letter-spacing: 0.005em;
+  margin: 0; max-width: 26ch; text-wrap: balance;
+  color: var(--on-ink); transition: color 0.25s;
 }
-.hero-link:hover .hero-title { color: oklch(0.86 0.07 205); }
-.hero-meta { display: flex; flex-wrap: wrap; align-items: baseline; gap: var(--space-md);
-  font-size: 13px; color: var(--on-ink-dim); font-variant-numeric: tabular-nums; }
-.hero-meta .strength { font-family: var(--font-head); font-weight: 700; color: var(--accent-glow); font-size: 15px; }
-.hero-meta .strength .denom { color: var(--on-ink-dim); font-size: 12px; font-weight: 500; }
-.hero-cta { margin-top: var(--space-xl); }
-.hero-cta a {
-  display: inline-block; font-size: 13px; font-weight: 600; letter-spacing: 0.03em;
-  color: var(--ink); background: var(--accent-glow); padding: 10px 18px; border-radius: 8px;
-  transition: transform 0.18s, filter 0.18s;
+.hero-link:hover .hero-title { color: var(--accent-glow); }
+
+/* byline rail（強度チップ＋主アクション） */
+.hero-rail {
+  display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-lg);
+  margin-top: var(--space-2xl);
 }
-.hero-cta a:hover { filter: brightness(1.06); transform: translateY(-1px); }
+.hero-strength {
+  display: inline-flex; align-items: baseline; gap: 10px;
+  padding: 9px 16px; border-radius: 999px;
+  background: oklch(0.30 0.05 210 / 0.5);
+  border: 1px solid oklch(0.5 0.07 205 / 0.38);
+  font-variant-numeric: tabular-nums;
+}
+.hero-strength-label {
+  font-size: 11px; font-weight: 600; letter-spacing: 0.1em;
+  color: var(--on-ink-dim); text-transform: uppercase;
+}
+.hero-strength-value { font-family: var(--font-head); font-weight: 700; font-size: 18px; color: var(--accent-glow); }
+.hero-strength-unit { font-size: 12px; font-weight: 500; color: var(--on-ink-dim); margin-left: 1px; }
+.hero-strength-delta { font-size: 12px; color: var(--on-ink-dim); }
+
+.hero-go {
+  display: inline-flex; align-items: center; gap: 8px;
+  font-size: 13px; font-weight: 600; letter-spacing: 0.03em;
+  color: var(--ink); background: var(--accent-glow);
+  padding: 11px 20px; border-radius: 999px;
+  transition: transform 0.18s cubic-bezier(0.22,1,0.36,1), filter 0.18s;
+}
+.hero-go-arrow { transition: transform 0.22s cubic-bezier(0.22,1,0.36,1); }
+.hero-go:hover { filter: brightness(1.05); transform: translateY(-1px); }
+.hero-go:hover .hero-go-arrow { transform: translateX(3px); }
 
 /* ---------- content sections (light) ---------- */
 .section { padding: var(--space-4xl) 0 0; }
@@ -262,9 +308,9 @@ a { color: inherit; text-decoration: none; }
 /* ---------- motion ---------- */
 @keyframes fade-up { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
 .hero-inner > *, .section { animation: fade-up 0.5s cubic-bezier(0.22,1,0.36,1) both; }
-.hero-inner .hero-title { animation-delay: 0.04s; }
-.hero-inner .hero-meta { animation-delay: 0.08s; }
-.hero-inner .hero-cta { animation-delay: 0.12s; }
+.hero-inner .hero-status { animation-delay: 0s; }
+.hero-inner .hero-link { animation-delay: 0.06s; }
+.hero-inner .hero-rail { animation-delay: 0.13s; }
 @media (prefers-reduced-motion: reduce) { * { animation: none !important; transition: none !important; } }
 
 /* ---------- responsive ---------- */
