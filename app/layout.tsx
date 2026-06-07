@@ -3,6 +3,7 @@ import { SiteNav } from '@/components/SiteNav';
 import './globals.css';
 
 export const metadata = {
+  metadataBase: new URL('https://narrative-broadcast.com'),
   title: 'Narrative Broadcast - 市場参加者の物語と認知を6時間ごとに構造分析するナラティブの観測メディア',
   description:
     '市場参加者の物語と認知を6時間ごとに構造分析するナラティブの観測メディア',
