@@ -2,6 +2,7 @@ import { getIndexRows } from '@/lib/index-parser';
 import { categoryFromSlug, CATEGORIES } from '@/lib/categories';
 import { ArticleList } from '@/components/ArticleList';
 import { ChartSwitcher, type ChartSeries } from '@/components/ChartSwitcher';
+import { Wordmark } from '@/components/Wordmark';
 
 export default function Home() {
   const rows = getIndexRows();
@@ -27,10 +28,7 @@ export default function Home() {
           <p className="hero-tagline">
             市場参加者の物語と認知を6時間ごとに構造分析する<br />ナラティブの観測メディア
           </p>
-          <h1 className="hero-brand">
-            <span className="hero-brand-word">Narrative</span>{' '}
-            <span className="hero-brand-word hero-brand-accent">Broadcast</span>
-          </h1>
+          <Wordmark />
           <p className="hero-note">
             <span className="hero-live">
               <span className="hero-live-dot" aria-hidden="true" />

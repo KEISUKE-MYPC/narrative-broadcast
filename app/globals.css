@@ -126,27 +126,23 @@ a { color: inherit; text-decoration: none; }
   font-size: clamp(42px, 8.5vw, 92px); line-height: 1.0; letter-spacing: -0.025em;
   margin: 0; color: var(--on-ink); text-wrap: balance;
 }
-.hero-brand-word { display: inline-block; }
-.hero-brand-accent { color: var(--accent-glow); position: relative; }
-/* アクセント語の下線：ロード後にドロー → ゆっくり明滅（ライブ感） */
-.hero-brand-accent::after {
-  content: ""; position: absolute; left: 0; right: 0; bottom: 0.02em; height: 0.06em;
-  border-radius: 2px; background: var(--accent-glow);
-  transform: scaleX(0); transform-origin: left;
+/* ワードマーク：文字ごとに白→ティールの段階配色（各文字solid＝グラデ風）
+   ＋配色がゆっくり流れる＋ロード時に文字が立ち上がる */
+.hero-brand-letter { display: inline-block; }
+.hero-brand-space { display: inline-block; width: 0.26em; }
+@keyframes brand-reveal {
+  from { opacity: 0; transform: translateY(0.3em); filter: blur(7px); }
+  to   { opacity: 1; transform: none; filter: blur(0); }
+}
+@keyframes brand-flow {
+  0%, 100% { color: oklch(0.965 0.006 230); } /* 白 */
+  50%      { color: oklch(0.78 0.10 205); }   /* ティール */
+}
+.hero-brand-letter {
   animation:
-    brand-underline 0.7s cubic-bezier(0.22, 1, 0.36, 1) 0.8s both,
-    brand-underline-pulse 3.4s ease-in-out 1.7s infinite;
+    brand-reveal 0.65s cubic-bezier(0.22, 1, 0.36, 1) both,
+    brand-flow 5s ease-in-out infinite;
 }
-@keyframes brand-underline { to { transform: scaleX(1); } }
-@keyframes brand-underline-pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
-/* ワードマークの語ごとリビール（ブラー＋上昇） */
-@keyframes brand-word-in {
-  from { opacity: 0; transform: translateY(0.28em); filter: blur(7px); }
-  to { opacity: 1; transform: none; filter: blur(0); }
-}
-.hero-brand-word { animation: brand-word-in 0.75s cubic-bezier(0.22, 1, 0.36, 1) both; }
-.hero-brand-word:nth-child(1) { animation-delay: 0.10s; }
-.hero-brand-word:nth-child(2) { animation-delay: 0.26s; }
 
 /* note（ライブ／更新頻度／最終更新） */
 .hero-note {
