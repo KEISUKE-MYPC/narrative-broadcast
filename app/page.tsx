@@ -18,7 +18,7 @@ export default function Home() {
         <div className="hero-grid" aria-hidden="true" />
         <div className="hero-inner">
           <p className="hero-tagline">
-            市場参加者の物語と認知を6時間ごとに構造分析するナラティブの観測メディア
+            市場参加者の物語と認知を6時間ごとに構造分析する<br />ナラティブの観測メディア
           </p>
           <h1 className="hero-brand">
             Narrative Broadcast
