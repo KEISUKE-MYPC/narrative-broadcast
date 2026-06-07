@@ -27,7 +27,11 @@ export async function renderMarkdown(raw: string): Promise<string> {
     .use(rehypeSlug)
     .use(rehypeStringify)
     .process(stripAutoNotice(content));
-  return String(file);
+  // テーブル（計器盤など）はスクロール用のラッパーで包み、
+  // スマホで“テーブルだけ”横スクロールできるようにする（ページ全体のはみ出し防止）。
+  return String(file)
+    .replace(/<table>/g, '<div class="table-scroll"><table>')
+    .replace(/<\/table>/g, '</table></div>');
 }
 
 /** レンダリング済みHTMLから h2/h3 見出しを抽出して目次を作る（IDはrehype-slug由来）。 */
