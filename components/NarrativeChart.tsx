@@ -14,7 +14,13 @@ export type ChartPoint = { datetime: string; strength: number; narrative: string
 const ACCENT = '#2f7e95'; // 落ち着いた青〜ティール（--accent 相当）
 const TICK = 'rgba(60, 72, 84, 0.5)';
 
-export function NarrativeChart({ data }: { data: ChartPoint[] }) {
+export function NarrativeChart({
+  data,
+  color = ACCENT,
+}: {
+  data: ChartPoint[];
+  color?: string;
+}) {
   // ResponsiveContainerはSSR時に寸法を測れないため、マウント後のみ描画する
   const [mounted, setMounted] = useState(false);
   useEffect(() => setMounted(true), []);
@@ -60,10 +66,10 @@ export function NarrativeChart({ data }: { data: ChartPoint[] }) {
             <Line
               type="monotone"
               dataKey="strength"
-              stroke={ACCENT}
+              stroke={color}
               strokeWidth={2.5}
-              dot={{ r: 3, fill: ACCENT, strokeWidth: 0 }}
-              activeDot={{ r: 5, fill: ACCENT, strokeWidth: 0 }}
+              dot={{ r: 3, fill: color, strokeWidth: 0 }}
+              activeDot={{ r: 5, fill: color, strokeWidth: 0 }}
             />
           </LineChart>
         </ResponsiveContainer>

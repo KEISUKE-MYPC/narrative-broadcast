@@ -1,16 +1,23 @@
 import { getIndexRows } from '@/lib/index-parser';
+import { categoryFromSlug, CATEGORIES } from '@/lib/categories';
 import { ArticleList } from '@/components/ArticleList';
-import { NarrativeChart } from '@/components/NarrativeChart';
+import { ChartSwitcher, type ChartSeries } from '@/components/ChartSwitcher';
 
 export default function Home() {
   const rows = getIndexRows();
   const latest = rows[0];
-  const chart = rows.map((r) => ({
-    datetime: r.datetime,
-    strength: r.strength,
-    narrative: r.narrative,
-  }));
   const recent = rows.slice(0, 9);
+
+  // 分野ごとの強度系列（データのある分野のみ）
+  const series: ChartSeries[] = CATEGORIES.map((c) => ({
+    slug: c.slug,
+    short: c.short,
+    label: c.label,
+    color: c.ogAccent,
+    points: rows
+      .filter((r) => categoryFromSlug(r.slug).slug === c.slug)
+      .map((r) => ({ datetime: r.datetime, strength: r.strength, narrative: r.narrative })),
+  })).filter((s) => s.points.length > 0);
 
   return (
     <>
@@ -45,9 +52,7 @@ export default function Home() {
           <h2 className="section-title">
             <span className="ja">ナラティブ遷移 — 強度の推移</span>
           </h2>
-          <div className="chart-frame">
-            <NarrativeChart data={chart} />
-          </div>
+          <ChartSwitcher series={series} />
         </section>
 
         <section className="section">
