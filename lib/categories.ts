@@ -7,7 +7,9 @@ export type Category = {
   label: string; // 正式名（例: 'Bitcoin ナラティブ'）
   short: string; // チップ等の短縮表記（例: 'BTC'）
   description: string; // 分野の一言説明
-  accent: string; // 識別用アクセント色（CSSカスタムプロパティ or oklch）
+  symbol: string; // アイキャッチのシンボル（例: '₿'）
+  accent: string; // 識別用アクセント色（CSS変数 or oklch・サイト内表示用）
+  ogAccent: string; // OG画像用の実色（CSS変数は使えないため oklch/hex 実値）
 };
 
 export const CATEGORIES: Category[] = [
@@ -16,7 +18,9 @@ export const CATEGORIES: Category[] = [
     label: 'Bitcoin ナラティブ',
     short: 'BTC',
     description: '市場参加者の物語と認知を6時間ごとに構造分析',
+    symbol: '₿',
     accent: 'var(--accent)',
+    ogAccent: '#5cc6da', // OG画像用の実色（≒ --accent oklch(0.78 0.10 205)）
   },
 ];
 

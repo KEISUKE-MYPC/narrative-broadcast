@@ -41,3 +41,8 @@ export function parseIndex(markdown: string): IndexRow[] {
 export function getIndexRows(): IndexRow[] {
   return parseIndex(readFileSync(join(ARTICLES_DIR, 'INDEX.md'), 'utf8'));
 }
+
+/** slug から INDEX 行（タイトル・強度・日時等）を引く。無ければ null。 */
+export function getIndexRowBySlug(slug: string): IndexRow | null {
+  return getIndexRows().find((r) => r.slug === slug) ?? null;
+}
