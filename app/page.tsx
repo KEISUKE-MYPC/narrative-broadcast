@@ -14,42 +14,31 @@ export default function Home() {
 
   return (
     <>
-      {latest && (
-        <section className="hero-band">
-          <div className="hero-grid" aria-hidden="true" />
-          <div className="hero-inner">
-            <div className="hero-status">
-              <span className="hero-live">
-                <span className="hero-live-dot" aria-hidden="true" />
-                ライブ解析
-              </span>
-              <span className="hero-status-sep" aria-hidden="true">/</span>
-              <span className="hero-cadence">{latest.cycle}サイクル</span>
-              <span className="hero-status-sep" aria-hidden="true">/</span>
-              <time className="hero-time">{latest.datetime} JST</time>
-            </div>
-
-            <a className="hero-link" href={`/articles/${latest.slug}`}>
-              <h1 className="hero-title">{latest.narrative}</h1>
-            </a>
-
-            <div className="hero-rail">
-              <span className="hero-strength">
-                <span className="hero-strength-label">支配的強度</span>
-                <span className="hero-strength-value">
-                  {latest.strength}
-                  <span className="hero-strength-unit">/10</span>
-                </span>
-                <span className="hero-strength-delta">前回比 {latest.strengthDelta}</span>
-              </span>
-              <a className="hero-go" href={`/articles/${latest.slug}`}>
-                この分析を読む
-                <span className="hero-go-arrow" aria-hidden="true">→</span>
-              </a>
-            </div>
-          </div>
-        </section>
-      )}
+      <section className="hero-band">
+        <div className="hero-grid" aria-hidden="true" />
+        <div className="hero-inner">
+          <p className="hero-tagline">
+            市場参加者の物語と認知を6時間ごとに構造分析する、Bitcoinナラティブの観測メディア。
+          </p>
+          <h1 className="hero-brand">
+            narrative<span className="hero-brand-dash">-</span>broadcast
+          </h1>
+          <p className="hero-note">
+            <span className="hero-live">
+              <span className="hero-live-dot" aria-hidden="true" />
+              ライブ解析
+            </span>
+            <span className="hero-status-sep" aria-hidden="true">/</span>
+            <span>6時間ごとに更新</span>
+            {latest && (
+              <>
+                <span className="hero-status-sep" aria-hidden="true">/</span>
+                <span>最終更新 {latest.datetime} JST</span>
+              </>
+            )}
+          </p>
+        </div>
+      </section>
 
       <div className="container">
         <section className="section">

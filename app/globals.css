@@ -79,7 +79,7 @@ a { color: inherit; text-decoration: none; }
   position: relative;
   isolation: isolate;
   background:
-    radial-gradient(135% 120% at 90% -10%, oklch(0.43 0.085 205 / 0.42), transparent 62%),
+    radial-gradient(120% 120% at 50% -25%, oklch(0.43 0.085 205 / 0.40), transparent 62%),
     linear-gradient(168deg, var(--ink), var(--ink-2));
   color: var(--on-ink);
   border-bottom: 1px solid oklch(0.30 0.02 240);
@@ -104,14 +104,29 @@ a { color: inherit; text-decoration: none; }
 }
 .hero-inner {
   position: relative; z-index: 1;
-  max-width: var(--maxw); margin: 0 auto;
-  padding: clamp(44px, 7vw, 88px) var(--space-xl) clamp(40px, 6vw, 68px);
+  max-width: 920px; margin: 0 auto; text-align: center;
+  padding: clamp(56px, 9vw, 116px) var(--space-xl) clamp(52px, 8vw, 104px);
 }
 
-/* status line（ライブ・サイクル・配信時刻） */
-.hero-status {
-  display: flex; align-items: center; flex-wrap: wrap; gap: var(--space-md);
-  margin: 0 0 var(--space-xl);
+/* tagline（メディアの一文説明） */
+.hero-tagline {
+  margin: 0 auto var(--space-xl); max-width: 44ch;
+  font-size: clamp(13px, 1.4vw, 15px); font-weight: 500; line-height: 1.85;
+  letter-spacing: 0.04em; color: var(--on-ink-dim);
+}
+
+/* brand（サイト名） */
+.hero-brand {
+  font-family: var(--font-head); font-weight: 900;
+  font-size: clamp(38px, 7.5vw, 80px); line-height: 1.02; letter-spacing: -0.01em;
+  margin: 0; color: var(--on-ink); text-wrap: balance;
+}
+.hero-brand-dash { color: var(--accent-glow); }
+
+/* note（ライブ／更新頻度／最終更新） */
+.hero-note {
+  display: inline-flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: var(--space-md);
+  margin: var(--space-2xl) 0 0;
   font-size: 12px; font-weight: 600; letter-spacing: 0.06em;
   color: var(--on-ink-dim); font-variant-numeric: tabular-nums;
 }
@@ -129,46 +144,6 @@ a { color: inherit; text-decoration: none; }
   100% { box-shadow: 0 0 0 0 oklch(0.72 0.10 205 / 0); }
 }
 .hero-status-sep { opacity: 0.35; }
-
-/* title */
-.hero-title {
-  font-family: var(--font-head); font-weight: 700;
-  font-size: clamp(26px, 3.6vw, 40px); line-height: 1.5; letter-spacing: 0.005em;
-  margin: 0; max-width: 26ch; text-wrap: balance;
-  color: var(--on-ink); transition: color 0.25s;
-}
-.hero-link:hover .hero-title { color: var(--accent-glow); }
-
-/* byline rail（強度チップ＋主アクション） */
-.hero-rail {
-  display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-lg);
-  margin-top: var(--space-2xl);
-}
-.hero-strength {
-  display: inline-flex; align-items: baseline; gap: 10px;
-  padding: 9px 16px; border-radius: 999px;
-  background: oklch(0.30 0.05 210 / 0.5);
-  border: 1px solid oklch(0.5 0.07 205 / 0.38);
-  font-variant-numeric: tabular-nums;
-}
-.hero-strength-label {
-  font-size: 11px; font-weight: 600; letter-spacing: 0.1em;
-  color: var(--on-ink-dim); text-transform: uppercase;
-}
-.hero-strength-value { font-family: var(--font-head); font-weight: 700; font-size: 18px; color: var(--accent-glow); }
-.hero-strength-unit { font-size: 12px; font-weight: 500; color: var(--on-ink-dim); margin-left: 1px; }
-.hero-strength-delta { font-size: 12px; color: var(--on-ink-dim); }
-
-.hero-go {
-  display: inline-flex; align-items: center; gap: 8px;
-  font-size: 13px; font-weight: 600; letter-spacing: 0.03em;
-  color: var(--ink); background: var(--accent-glow);
-  padding: 11px 20px; border-radius: 999px;
-  transition: transform 0.18s cubic-bezier(0.22,1,0.36,1), filter 0.18s;
-}
-.hero-go-arrow { transition: transform 0.22s cubic-bezier(0.22,1,0.36,1); }
-.hero-go:hover { filter: brightness(1.05); transform: translateY(-1px); }
-.hero-go:hover .hero-go-arrow { transform: translateX(3px); }
 
 /* ---------- content sections (light) ---------- */
 .section { padding: var(--space-4xl) 0 0; }
@@ -308,9 +283,9 @@ a { color: inherit; text-decoration: none; }
 /* ---------- motion ---------- */
 @keyframes fade-up { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
 .hero-inner > *, .section { animation: fade-up 0.5s cubic-bezier(0.22,1,0.36,1) both; }
-.hero-inner .hero-status { animation-delay: 0s; }
-.hero-inner .hero-link { animation-delay: 0.06s; }
-.hero-inner .hero-rail { animation-delay: 0.13s; }
+.hero-inner .hero-tagline { animation-delay: 0s; }
+.hero-inner .hero-brand { animation-delay: 0.06s; }
+.hero-inner .hero-note { animation-delay: 0.13s; }
 @media (prefers-reduced-motion: reduce) { * { animation: none !important; transition: none !important; } }
 
 /* ---------- responsive ---------- */
