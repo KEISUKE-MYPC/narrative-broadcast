@@ -1,4 +1,5 @@
 import type { ReactNode } from 'react';
+import { Analytics } from '@vercel/analytics/next';
 import { SiteNav } from '@/components/SiteNav';
 import './globals.css';
 
@@ -44,6 +45,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
             </p>
           </div>
         </footer>
+        <Analytics />
       </body>
     </html>
   );

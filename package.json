@@ -26,6 +26,7 @@
   "private": "true",
   "type": "module",
   "dependencies": {
+    "@vercel/analytics": "^2.0.1",
     "gray-matter": "^4.0.3",
     "next": "^16.2.7",
     "react": "^19.2.7",
