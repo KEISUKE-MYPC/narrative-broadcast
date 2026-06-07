@@ -9,20 +9,14 @@ export default function Home() {
   const latest = rows[0];
   const recent = rows.slice(0, 9);
 
-  // ナラティブ遷移チャートは直近N日だけ表示（増え続けて詰まるのを防ぐ）
-  const CHART_WINDOW_DAYS = 3;
-  const parseDt = (dt: string) => new Date(dt.replace(' ', 'T')).getTime();
-  const latestTime = rows.length ? parseDt(rows[0].datetime) : 0;
-  const cutoff = latestTime - CHART_WINDOW_DAYS * 24 * 60 * 60 * 1000;
-
-  // 分野ごとの強度系列（データのある分野のみ・直近N日）
+  // 分野ごとの強度系列（データのある分野のみ・全期間／チャート側で横スクロール表示）
   const series: ChartSeries[] = CATEGORIES.map((c) => ({
     slug: c.slug,
     short: c.short,
     label: c.label,
     color: c.ogAccent,
     points: rows
-      .filter((r) => categoryFromSlug(r.slug).slug === c.slug && parseDt(r.datetime) >= cutoff)
+      .filter((r) => categoryFromSlug(r.slug).slug === c.slug)
       .map((r) => ({ datetime: r.datetime, strength: r.strength, narrative: r.narrative })),
   })).filter((s) => s.points.length > 0);
 
