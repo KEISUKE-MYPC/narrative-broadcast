@@ -14,6 +14,14 @@ export type ChartPoint = { datetime: string; strength: number; narrative: string
 const ACCENT = '#2f7e95'; // 落ち着いた青〜ティール（--accent 相当）
 const TICK = 'rgba(60, 72, 84, 0.5)';
 
+// "2026-06-07 21:05" → "6/7 21:05"（年を省き短縮）
+function fmtTick(value: string): string {
+  const [date, time] = value.split(' ');
+  if (!date) return value;
+  const [, mo, da] = date.split('-');
+  return time ? `${Number(mo)}/${Number(da)} ${time}` : `${Number(mo)}/${Number(da)}`;
+}
+
 export function NarrativeChart({
   data,
   color = ACCENT,
@@ -39,7 +47,10 @@ export function NarrativeChart({
               tickLine={false}
               axisLine={{ stroke: 'rgba(60,72,84,0.18)' }}
               tickMargin={8}
-              hide={series.length > 14}
+              tickFormatter={fmtTick}
+              interval="preserveStartEnd"
+              minTickGap={44}
+              hide={series.length > 30}
             />
             <YAxis
               domain={[0, 10]}
