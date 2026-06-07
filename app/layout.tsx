@@ -5,9 +5,9 @@ import './globals.css';
 
 export const metadata = {
   metadataBase: new URL('https://narrative-broadcast.com'),
-  title: 'Narrative Broadcast - 市場参加者の物語と認知を6時間ごとに構造分析するナラティブの観測メディア',
+  title: 'Narrative Broadcast - 市場参加者の物語と認知を構造分析するナラティブ観測メディア',
   description:
-    '市場参加者の物語と認知を6時間ごとに構造分析するナラティブの観測メディア',
+    '市場参加者の物語と認知を構造分析するナラティブ観測メディア',
 };
 
 export default function RootLayout({ children }: { children: ReactNode }) {
