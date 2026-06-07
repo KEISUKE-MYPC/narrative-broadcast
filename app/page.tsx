@@ -28,7 +28,8 @@ export default function Home() {
             市場参加者の物語と認知を6時間ごとに構造分析する<br />ナラティブの観測メディア
           </p>
           <h1 className="hero-brand">
-            Narrative Broadcast
+            <span className="hero-brand-word">Narrative</span>{' '}
+            <span className="hero-brand-word hero-brand-accent">Broadcast</span>
           </h1>
           <p className="hero-note">
             <span className="hero-live">
