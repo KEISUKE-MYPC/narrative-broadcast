@@ -19,7 +19,8 @@ export async function generateMetadata({
   const slugPath = slug.join('/');
   const row = getIndexRowBySlug(slugPath);
   const title = row?.narrative ?? 'ナラティブ分析';
-  const ogImage = `/og/${slugPath}`;
+  // OGは分野ごとの1枚を使い回す（記事数に依存せずビルドが軽い）
+  const ogImage = `/og/${categoryFromSlug(slugPath).slug}`;
   return {
     title,
     openGraph: { title, images: [ogImage] },

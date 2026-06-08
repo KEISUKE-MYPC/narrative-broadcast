@@ -1,19 +1,19 @@
 import { ImageResponse } from 'next/og';
-import { getArticleSlugs } from '@/lib/articles';
-import { categoryFromSlug } from '@/lib/categories';
-import { getIndexRowBySlug } from '@/lib/index-parser';
+import { CATEGORIES, getCategory } from '@/lib/categories';
 import { loadGoogleFont } from '@/lib/og-font';
 
+// 分野ごとに1枚だけ生成し、その分野の全記事で使い回す（記事数に依存せずビルドが軽い）。
+// URL は /og/<分野slug>（例: /og/btc）。slugは1セグメント想定。
 export const dynamic = 'force-static';
+export const dynamicParams = false;
 
 const SIZE = { width: 1200, height: 630 };
 const INK = '#1b2230';
 const INK2 = '#12161d';
 const ON_INK = '#f4f6f9';
-const ON_INK_DIM = '#aeb7c4';
 
 export function generateStaticParams() {
-  return getArticleSlugs().map((slug) => ({ slug: slug.split('/') }));
+  return CATEGORIES.map((c) => ({ slug: [c.slug] }));
 }
 
 export async function GET(
@@ -21,23 +21,18 @@ export async function GET(
   { params }: { params: Promise<{ slug: string[] }> },
 ) {
   const { slug } = await params;
-  const slugPath = slug.join('/');
-  const cat = categoryFromSlug(slugPath);
-  const row = getIndexRowBySlug(slugPath);
+  const cat = getCategory(slug[0]);
   const accent = cat.ogAccent;
 
-  const strengthText = row ? `強度 ${row.strength}/10` : '';
-  const dateText = row ? `${row.datetime} JST` : '';
-
-  // この画像で使う文字をまとめてサブセット取得
-  const glyphs = `${cat.label}${cat.short}${strengthText}${dateText}NarrativeBroadcast0123456789/年月日時分 -:`;
-  const font = await loadGoogleFont('Zen Kaku Gothic New', glyphs, 700);
+  const font = await loadGoogleFont(
+    'Zen Kaku Gothic New',
+    `${cat.label}NarrativeBroadcast`,
+    700,
+  );
   const fonts = font
     ? [{ name: 'Zen Kaku Gothic New', data: font, weight: 700 as const, style: 'normal' as const }]
     : [];
-  // フォント取得失敗時は日本語が描けないため英字主体にフォールバック
   const label = font ? cat.label : cat.short;
-  const strength = font ? strengthText : row ? `Strength ${row.strength}/10` : '';
 
   return new ImageResponse(
     (
@@ -56,17 +51,7 @@ export async function GET(
         }}
       >
         {/* 上端アクセントライン */}
-        <div
-          style={{
-            position: 'absolute',
-            top: 0,
-            left: 0,
-            right: 0,
-            height: 6,
-            background: accent,
-            opacity: 0.85,
-          }}
-        />
+        <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: 6, background: accent, opacity: 0.85 }} />
         {/* 分野シンボル（ウォーターマーク） */}
         <div
           style={{
@@ -104,33 +89,12 @@ export async function GET(
         </div>
 
         {/* 中段：分野ラベル */}
-        <div
-          style={{
-            display: 'flex',
-            fontSize: 92,
-            fontWeight: 700,
-            letterSpacing: 1,
-            color: ON_INK,
-            maxWidth: 900,
-          }}
-        >
+        <div style={{ display: 'flex', fontSize: 92, fontWeight: 700, letterSpacing: 1, color: ON_INK, maxWidth: 900 }}>
           {label}
         </div>
 
-        {/* 下段：強度・日時／ブランド */}
-        <div
-          style={{
-            display: 'flex',
-            justifyContent: 'space-between',
-            alignItems: 'flex-end',
-            fontSize: 30,
-            color: ON_INK_DIM,
-          }}
-        >
-          <div style={{ display: 'flex', gap: 28, alignItems: 'baseline' }}>
-            {strength && <span style={{ color: accent, fontWeight: 700 }}>{strength}</span>}
-            {dateText && <span>{dateText}</span>}
-          </div>
+        {/* 下段：ブランド */}
+        <div style={{ display: 'flex', justifyContent: 'flex-end', fontSize: 30 }}>
           <div style={{ display: 'flex', fontWeight: 700, letterSpacing: 2, color: ON_INK }}>
             Narrative Broadcast
           </div>
