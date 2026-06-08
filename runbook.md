@@ -159,7 +159,7 @@ curl -s https://api.santiment.net/graphql \
 
 ## 7. リモート自動実行（routine用・自己完結手順）
 
-毎日 JST 9:00 のリモートルーチン（Anthropicクラウド）が従う手順。リモートは**ローカルの`.env`/ローカルMCP/スキルにアクセスできない**が、鍵は**クラウド環境の環境変数**で渡せるため**6ソース全部使う**。
+**6時間ごと**（JST 03/09/15/21 頃）のリモートルーチン（Anthropicクラウド）が従う手順。リモートは**ローカルの`.env`/ローカルMCP/スキルにアクセスできない**が、鍵は**クラウド環境の環境変数**で渡せるため**6ソース全部使う**。
 
 前提（Web UIで設定済みであること）:
 - リポジトリ: `KEISUKE-MYPC/narrative-broadcast` をクローン
@@ -168,6 +168,10 @@ curl -s https://api.santiment.net/graphql \
 - ネットワーク許可ドメイン（curl用）: `api.santiment.net` `api.coinalyze.net` `gamma-api.polymarket.com` `stablecoins.llama.fi`（CoinGecko/Glassnodeはコネクタ経由なので許可不要）
 
 手順:
+0. **【最重要】作業前に main を実体へ同期**: `git fetch origin && git checkout main && git reset --hard origin/main`。
+   - **`origin/main` がこのリポジトリの正準・完全な状態**（公開済み記事・INDEX履歴・サイトコード一式が入っている）。
+   - クラウドのローカル参照は古いことがある。もし「main に記事やINDEXやサイトコードが無い／runbookだけ」に見えても、それは**古い参照の見間違い**。**必ず fetch/reset で origin/main に合わせてから判断する**。
+   - **絶対にやらないこと**: 「main が壊れている」と判断して `claude/...` 等のブランチに公開して終わること。公開先は常に `origin/main`。判断に迷ったら origin/main へ reset して続行する。
 1. **ベースライン**: `articles/INDEX.md` 最新行 → t=0。
 2. **データ取得（6ソース）**:
    - CoinGecko: **コネクタ**で 価格/24h/7d/30d/ATH/ドミナンス＋セクター騰落
@@ -179,7 +183,10 @@ curl -s https://api.santiment.net/graphql \
 3. **記事生成**: §1ガードレール厳守・§3早見表で解釈・`articles/_template.md`準拠の6h構成。冒頭注記: `> ⚠️ 自動生成｜6ソース`（main直接公開のため「下書き」表記は外す）
 4. **保存**: `articles/YYYY/MM/YYYY-MM-DD-HHmm-6h-btc.md`（DRAFTサフィックスなし）
 5. **INDEX追記**: 1行追加（状態=published）。
-6. **コミット＆公開**: `git add -A && git commit -m "publish: 6h分析 YYYY-MM-DD (auto)" && git push origin main`（**mainへ直接公開**。次回実行がこのINDEXをt=0に読むため baseline が前進する）。
+6. **コミット＆公開（必ず origin/main へ）**: `git add -A && git commit -m "publish: 6h分析 YYYY-MM-DD HH:MM (auto)"` → push前に前進分を取り込む `git pull --rebase origin main` → `git push origin main`。
+   - **公開は origin/main 一択**。クラウドの自動ブランチ（`claude/...`）に置いたまま終わらない（＝サイトに反映されない）。
+   - 直接pushが拒否される等で main に出せない場合のみ、ブランチへpush＋**PR作成して即マージ**し、main に必ず到達させる。
+   - 次回実行がこのINDEXを t=0 に読むため baseline が前進する。
 7. 断定/価格予想/売買助言は禁止、免責文必須、スコア系は使わない（§1）。
 
 ---
