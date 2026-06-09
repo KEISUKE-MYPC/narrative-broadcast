@@ -371,7 +371,7 @@ a { color: inherit; text-decoration: none; }
 .article tbody td:first-child { color: var(--text-dim); white-space: nowrap; font-weight: 500; }
 
 /* ---------- article: anchors, marker, inline code ---------- */
-.article :is(h1, h2, h3) { scroll-margin-top: 80px; }
+.article :is(h1, h2, h3) { scroll-margin-top: 80px; word-break: auto-phrase; }
 .article strong {
   background: linear-gradient(transparent 60%, color-mix(in oklch, var(--accent) 26%, transparent) 0);
   border-radius: 1px;
