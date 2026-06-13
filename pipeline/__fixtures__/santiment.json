@@ -1,0 +1,6 @@
+{ "data": { "getTrendingWords": [
+  { "datetime": "2026-06-12T00:00:00Z", "topWords": [
+    { "word": "old", "score": 1 } ] },
+  { "datetime": "2026-06-13T00:00:00Z", "topWords": [
+    { "word": "spacex", "score": 1004 }, { "word": "ipo", "score": 798 } ] }
+]}}

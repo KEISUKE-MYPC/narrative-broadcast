@@ -1,0 +1,23 @@
+{
+  "coin": { "market_data": {
+    "current_price": { "usd": 63631 },
+    "price_change_percentage_24h": 1.05,
+    "price_change_percentage_7d": 2.68,
+    "price_change_percentage_30d": -20.94,
+    "ath": { "usd": 126080 },
+    "ath_change_percentage": { "usd": -49.53 },
+    "ath_date": { "usd": "2025-10-06T18:57:42.558Z" }
+  }},
+  "global": { "data": {
+    "market_cap_percentage": { "btc": 56.39 },
+    "market_cap_change_percentage_24h_usd": 0.85
+  }},
+  "categories": [
+    { "name": "ERC 404", "market_cap_change_24h": 64.8 },
+    { "name": "Arcade Games", "market_cap_change_24h": 37.4 },
+    { "name": "A", "market_cap_change_24h": 5 },
+    { "name": "B", "market_cap_change_24h": 4 },
+    { "name": "C", "market_cap_change_24h": 3 },
+    { "name": "D", "market_cap_change_24h": 2 }
+  ]
+}
