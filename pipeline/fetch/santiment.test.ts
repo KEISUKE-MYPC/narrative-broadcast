@@ -14,4 +14,7 @@ describe('parseSantiment', () => {
     expect(words[0].score).toBe(1004);
     expect(words).toHaveLength(2);
   });
+  it('returns [] when getTrendingWords is missing', () => {
+    expect(parseSantiment({})).toEqual([]);
+  });
 });

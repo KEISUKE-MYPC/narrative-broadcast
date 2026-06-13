@@ -26,8 +26,8 @@ export async function fetchGlassnode(
   const out: OnchainData = { mvrv_z: null, sopr: null, lth_sum: null, asof: null };
   for (const [field, path] of Object.entries(METRICS) as [keyof typeof METRICS, string][]) {
     try {
-      const url = `https://api.glassnode.com/v1/metrics/${path}?a=${cfg.glassnodeAsset}&i=24h&api_key=${key}`;
-      const res = await fetch(url);
+      const url = `https://api.glassnode.com/v1/metrics/${path}?a=${cfg.glassnodeAsset}&i=24h`;
+      const res = await fetch(url, { headers: { 'X-Api-Key': key } });
       if (!res.ok) throw new Error(`status ${res.status}`);
       const parsed = parseGlassnodeMetric(await res.json());
       out[field] = parsed.value;

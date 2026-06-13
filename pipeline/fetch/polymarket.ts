@@ -1,6 +1,6 @@
 import type { OddsData, AssetConfig } from '../types';
 
-type Raw = { events: { slug: string; markets: { groupItemTitle: string; outcomePrices: string[] }[] }[] };
+type Raw = { events?: { slug: string; markets: { groupItemTitle: string; outcomePrices: string[] }[] }[] };
 
 // '$55,000' -> '55000'
 function normalizeTitle(title: string): string {
@@ -8,6 +8,7 @@ function normalizeTitle(title: string): string {
 }
 
 export function parsePolymarket(raw: Raw, cfg: AssetConfig): OddsData {
+  if (!Array.isArray(raw.events)) return { targets: {}, market_slug: cfg.polymarketSlug };
   const ev = raw.events.find((e) => e.slug === cfg.polymarketSlug);
   const targets: Record<string, number> = {};
   if (ev) {

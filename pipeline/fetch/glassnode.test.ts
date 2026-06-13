@@ -11,7 +11,7 @@ describe('parseGlassnodeMetric', () => {
   it('returns the latest value and its UTC date', () => {
     const p = parseGlassnodeMetric(raw);
     expect(p.value).toBe(0.344);
-    expect(p.asof).toMatch(/^2025-06-11|^\d{4}-\d{2}-\d{2}$/);
+    expect(p.asof).toBe('2025-06-11');
   });
   it('returns null for empty array', () => {
     expect(parseGlassnodeMetric([]).value).toBeNull();
