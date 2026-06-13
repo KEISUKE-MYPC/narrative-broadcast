@@ -1,10 +1,8 @@
 name: publish-btc
 on:
+  # 発火は外部cron(cron-job.org)からのworkflow_dispatchに一本化。
+  # GitHub schedule cronは遅延・スキップが直せないため廃止した（2026-06-14）。
   workflow_dispatch: {}
-  schedule:
-    # 毎時ちょうど(分0)はGitHub側が混雑して遅延・スキップしやすいので分をずらす
-    # 00:17 / 06:17 / 12:17 / 18:17 UTC = 09:17 / 15:17 / 21:17 / 03:17 JST
-    - cron: '17 */6 * * *'
 
 permissions:
   contents: write
