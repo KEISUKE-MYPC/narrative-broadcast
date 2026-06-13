@@ -35,7 +35,6 @@ export default function Home() {
               ライブ解析
             </span>
             <span className="hero-status-sep" aria-hidden="true">/</span>
-            <span>6時間ごとに更新</span>
             {latest && (
               <>
                 <span className="hero-status-sep" aria-hidden="true">/</span>
