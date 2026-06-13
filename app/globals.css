@@ -211,9 +211,9 @@ a { color: inherit; text-decoration: none; }
   display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
   gap: var(--space-lg);
 }
-.analysis-card { display: flex; }
+.analysis-card { display: flex; min-width: 0; }
 .analysis-card a {
-  display: flex; flex-direction: column;
+  display: flex; flex-direction: column; min-width: 0;
   width: 100%; overflow: hidden;
   background: var(--surface); border: 1px solid var(--hair); border-radius: 14px;
   transition: transform 0.18s, box-shadow 0.18s, border-color 0.18s;
@@ -256,6 +256,7 @@ a { color: inherit; text-decoration: none; }
   font-family: var(--font-head); font-weight: 700; font-size: 16px; line-height: 1.6;
   letter-spacing: 0.01em; color: var(--text); margin: 0;
   display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden;
+  overflow-wrap: anywhere;
 }
 .analysis-card a:hover .ac-title { color: var(--accent-ink); }
 .ac-delta { font-size: 11px; color: var(--text-faint); }
