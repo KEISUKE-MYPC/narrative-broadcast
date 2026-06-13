@@ -13,8 +13,7 @@ export type MarketData = {
 export type OnchainData = {
   mvrv_z: number | null;
   sopr: number | null;
-  lth_sum: number | null;
-  asof: string | null; // 最新データ点の日付(UTC)
+  asof: string | null; // 最新データ点の日付(YYYY-MM-DD)
 };
 
 export type TrendWord = { word: string; score: number };

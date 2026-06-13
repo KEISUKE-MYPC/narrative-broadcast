@@ -7,7 +7,7 @@ const bundle: FetchBundle = {
   market: { price_usd: 63631, chg_24h: 1.05, chg_7d: 2.68, chg_30d: -20.94,
     ath: 126080, ath_change_pct: -49.53, ath_date: '2025-10-06', btc_dominance: 56.39,
     total_mcap_chg_24h: 0.85, sectors_top: [{ name: 'ERC 404', chg24h: 64.8 }] },
-  onchain: { mvrv_z: 0.344, sopr: 0.988, lth_sum: 14909761, asof: '2026-06-11' },
+  onchain: { mvrv_z: 0.344, sopr: 0.988, asof: '2026-06-11' },
   trends: [{ word: 'spacex', score: 1004 }],
   positions: { funding: [{ symbol: 'BTCUSDT_PERP.A', pct: 0.0024 }], oi_usd: 6.29e9, ls_long_pct: 60.12 },
   odds: { targets: { '55000': 54.5 }, market_slug: 'x' },

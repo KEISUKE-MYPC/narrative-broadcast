@@ -2,7 +2,7 @@ import { writeFileSync } from 'node:fs';
 import type { FetchBundle, SourceNote } from './types';
 import { btcConfig } from './config/btc';
 import { fetchCoinGecko } from './fetch/coingecko';
-import { fetchGlassnode } from './fetch/glassnode';
+import { fetchOnchain } from './fetch/bitcoindata';
 import { fetchSantiment } from './fetch/santiment';
 import { fetchCoinalyze } from './fetch/coinalyze';
 import { fetchPolymarket } from './fetch/polymarket';
@@ -31,7 +31,7 @@ async function collect(cfg: AssetConfig): Promise<FetchBundle> {
   };
   const [market, onchain, trends, positions, odds, stables] = await Promise.all([
     safe('CoinGecko', () => fetchCoinGecko(cfg)),
-    safe('Glassnode', () => fetchGlassnode(cfg, notes)),
+    safe('Onchain', () => fetchOnchain(notes)),
     safe('Santiment', () => fetchSantiment(cfg)),
     safe('Coinalyze', () => fetchCoinalyze(cfg, notes)),
     safe('Polymarket', () => fetchPolymarket(cfg)),

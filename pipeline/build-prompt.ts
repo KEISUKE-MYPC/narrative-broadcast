@@ -14,7 +14,7 @@ function fmtData(b: FetchBundle): string {
   const lines: string[] = [];
   if (m) lines.push(`- 価格 $${m.price_usd}（24h ${m.chg_24h}% / 7d ${m.chg_7d}% / 30d ${m.chg_30d}%）ATH比 ${m.ath_change_pct}%（ATH $${m.ath} ${m.ath_date}）ドミナンス ${m.btc_dominance}%`);
   if (m) lines.push(`- 上昇セクター: ${m.sectors_top.map((x) => `${x.name}(${x.chg24h}%)`).join(', ')}`);
-  if (o) lines.push(`- オンチェーン: MVRV-Z ${o.mvrv_z ?? 'N/A'} / SOPR ${o.sopr ?? 'N/A'} / LTH供給 ${o.lth_sum ?? 'N/A'}（asof ${o.asof ?? 'N/A'}）`);
+  if (o) lines.push(`- オンチェーン: MVRV-Z ${o.mvrv_z ?? 'N/A'} / SOPR ${o.sopr ?? 'N/A'}（asof ${o.asof ?? 'N/A'}）`);
   if (b.trends) lines.push(`- トレンド語: ${b.trends.map((w) => `${w.word}(${w.score})`).join(', ')}`);
   if (p) lines.push(`- ポジション: funding ${p.funding.map((f) => `${f.symbol}:${f.pct.toFixed(4)}%`).join(' / ')} / OI $${p.oi_usd ?? 'N/A'} / L/S long ${p.ls_long_pct ?? 'N/A'}%`);
   if (b.odds) lines.push(`- 年末オッズ: ${Object.entries(b.odds.targets).map(([k, v]) => `$${k}:${v}%`).join(' / ')}`);
