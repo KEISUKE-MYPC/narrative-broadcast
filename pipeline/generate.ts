@@ -18,6 +18,8 @@ export async function generateArticle(prompt: string, opts: Opts): Promise<strin
     const data = await res.json();
     const content = data?.message?.content;
     if (!content || typeof content !== 'string') throw new Error('empty content');
+    // 監査用：サーバーが実際に処理したモデルを各runのログに残す（nemotron呼び出しの証跡）
+    console.log(`[generate] server model=${data.model} eval_count=${data.eval_count ?? 'n/a'} chars=${content.length}`);
     return content;
   };
   try {
