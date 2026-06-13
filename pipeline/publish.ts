@@ -32,6 +32,11 @@ export function extractTitle(md: string): string {
   return '(無題)';
 }
 
+// articles/2026/06/x.md -> 2026/06/x  （INDEXリンク・slug用）
+export function relToSlug(rel: string, outputDir: string): string {
+  return rel.replace(`${outputDir}/`, '').replace(/\.md$/, '');
+}
+
 export function buildIndexRow(o: {
   datetimeJst: string; cycle: string; title: string; keyData: string; slug: string;
 }): string {
@@ -61,7 +66,7 @@ export function publish(opts: {
   const row = buildIndexRow({
     datetimeJst: datetimeJst(opts.now), cycle: opts.cfg.cycle,
     title: extractTitle(opts.markdown), keyData: opts.keyData,
-    slug: rel.replace(`${opts.cfg.outputDir}/`, ''),
+    slug: relToSlug(rel, opts.cfg.outputDir),
   });
   writeFileSync(indexPath, insertIndexRow(indexMd, row), 'utf8');
   return { path: rel, skipped: false };

@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { buildIndexRow, articleRelPath, extractTitle } from './publish';
+import { buildIndexRow, articleRelPath, extractTitle, relToSlug } from './publish';
 import { btcConfig } from './config/btc';
 
 describe('publish helpers', () => {
@@ -18,5 +18,12 @@ describe('publish helpers', () => {
     expect(row.startsWith('| 2026-06-13 15:06 | 6h | 半値の語り |')).toBe(true);
     expect(row).toContain('[link](2026/06/2026-06-13-1506-6h-btc.md)');
     expect(row).toContain('1/10');
+  });
+  it('relToSlug strips outputDir and .md so the INDEX link has a single .md', () => {
+    const slug = relToSlug('articles/2026/06/2026-06-13-1506-6h-btc.md', 'articles');
+    expect(slug).toBe('2026/06/2026-06-13-1506-6h-btc');
+    const row = buildIndexRow({ datetimeJst: 'x', cycle: '6h', title: 't', keyData: 'k', slug });
+    expect(row).toContain('[link](2026/06/2026-06-13-1506-6h-btc.md)');
+    expect(row).not.toContain('.md.md');
   });
 });

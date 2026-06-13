@@ -22,7 +22,8 @@ export async function generateArticle(prompt: string, opts: Opts): Promise<strin
   };
   try {
     return await call();
-  } catch {
+  } catch (e) {
+    console.warn(`[generate] first attempt failed, retrying: ${(e as Error).message}`);
     return await call(); // 1回リトライ。失敗すれば例外伝播
   }
 }

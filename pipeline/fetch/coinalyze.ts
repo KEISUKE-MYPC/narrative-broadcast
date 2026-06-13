@@ -13,6 +13,7 @@ export function parseOpenInterest(raw: { value: number }[]): number | null {
 export function parseLongShort(
   raw: { symbol: string; history: { t: number; l: number }[] }[],
 ): number | null {
+  if (!Array.isArray(raw) || raw.length === 0) return null;
   const hist = raw[0]?.history;
   if (!hist || hist.length === 0) return null;
   return hist[hist.length - 1].l;
