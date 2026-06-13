@@ -24,6 +24,7 @@ describe('buildPrompt', () => {
     expect(p).toContain('spacex');
     expect(p).toContain('前回の切り口A');
     expect(p).toContain('⚠️ 自動生成｜6ソース');
+    expect(p).toContain('$6.29B'); // OIはB単位整形（生数値でnemotronが桁を読み違えるのを防ぐ）
   });
 
   it('lists source failures when notes present', () => {

@@ -16,7 +16,7 @@ function fmtData(b: FetchBundle): string {
   if (m) lines.push(`- 上昇セクター: ${m.sectors_top.map((x) => `${x.name}(${x.chg24h}%)`).join(', ')}`);
   if (o) lines.push(`- オンチェーン: MVRV-Z ${o.mvrv_z ?? 'N/A'} / SOPR ${o.sopr ?? 'N/A'}（asof ${o.asof ?? 'N/A'}）`);
   if (b.trends) lines.push(`- トレンド語: ${b.trends.map((w) => `${w.word}(${w.score})`).join(', ')}`);
-  if (p) lines.push(`- ポジション: funding ${p.funding.map((f) => `${f.symbol}:${f.pct.toFixed(4)}%`).join(' / ')} / OI $${p.oi_usd ?? 'N/A'} / L/S long ${p.ls_long_pct ?? 'N/A'}%`);
+  if (p) lines.push(`- ポジション: funding ${p.funding.map((f) => `${f.symbol}:${f.pct.toFixed(4)}%`).join(' / ')} / OI ${p.oi_usd != null ? '$' + (p.oi_usd / 1e9).toFixed(2) + 'B' : 'N/A'} / L/S long ${p.ls_long_pct ?? 'N/A'}%`);
   if (b.odds) lines.push(`- 年末オッズ: ${Object.entries(b.odds.targets).map(([k, v]) => `$${k}:${v}%`).join(' / ')}`);
   if (s) lines.push(`- ステーブル総供給 $${(s.total_usd / 1e9).toFixed(2)}B（W/W ${s.wow_change_pct?.toFixed(2) ?? 'N/A'}%）`);
   return lines.join('\n');
