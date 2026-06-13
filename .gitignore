@@ -16,6 +16,9 @@ node_modules/
 /out
 next-env.d.ts
 
+# TypeScript インクリメンタルビルドのキャッシュ（ローカル生成物・コミット不要）
+*.tsbuildinfo
+
 # python caches (将来のスクリプト用)
 __pycache__/
 *.pyc
