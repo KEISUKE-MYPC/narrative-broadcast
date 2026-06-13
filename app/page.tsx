@@ -34,7 +34,6 @@ export default function Home() {
               <span className="hero-live-dot" aria-hidden="true" />
               ライブ解析
             </span>
-            <span className="hero-status-sep" aria-hidden="true">/</span>
             {latest && (
               <>
                 <span className="hero-status-sep" aria-hidden="true">/</span>
