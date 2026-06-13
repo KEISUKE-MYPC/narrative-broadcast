@@ -1,0 +1,6 @@
+{ "events": [
+  { "slug": "what-price-will-bitcoin-hit-before-2027", "markets": [
+    { "groupItemTitle": "$55,000", "outcomePrices": ["0.545", "0.455"] },
+    { "groupItemTitle": "$100,000", "outcomePrices": ["0.175", "0.825"] }
+  ]}
+]}
