@@ -1,13 +1,20 @@
 import type { PositionData, AssetConfig, SourceNote } from '../types';
 
+// Coinalyze funding-rate `value` is already a percentage (e.g. 0.005357 = 0.005357%).
 export function parseFunding(raw: { symbol: string; value: number }[]) {
   if (!Array.isArray(raw)) return [];
-  return raw.map((r) => ({ symbol: r.symbol, pct: r.value * 100 }));
+  return raw.map((r) => ({ symbol: r.symbol, pct: r.value }));
 }
 
-export function parseOpenInterest(raw: { value: number }[]): number | null {
+// OI is reported from the primary (reference) venue, matching the historical baseline,
+// not summed across venues. Falls back to the largest venue if the primary is absent.
+export function parseOpenInterest(
+  raw: { symbol: string; value: number }[], primarySymbol: string,
+): number | null {
   if (!Array.isArray(raw) || raw.length === 0) return null;
-  return raw.reduce((sum, r) => sum + (r.value ?? 0), 0);
+  const primary = raw.find((r) => r.symbol === primarySymbol);
+  if (primary) return primary.value;
+  return Math.max(...raw.map((r) => r.value));
 }
 
 export function parseLongShort(
@@ -33,9 +40,10 @@ export async function fetchCoinalyze(
     out.funding = parseFunding(await r.json());
   } catch (e) { notes.push({ source: 'Coinalyze', message: `funding: ${(e as Error).message}` }); }
   try {
+    const primary = cfg.coinalyzeSymbols.split(',')[0];
     const r = await fetch(`${base}/open-interest?api_key=${key}&symbols=${cfg.coinalyzeSymbols}&convert_to_usd=true`);
     if (!r.ok) throw new Error(`status ${r.status}`);
-    out.oi_usd = parseOpenInterest(await r.json());
+    out.oi_usd = parseOpenInterest(await r.json(), primary);
   } catch (e) { notes.push({ source: 'Coinalyze', message: `oi: ${(e as Error).message}` }); }
   try {
     const primary = cfg.coinalyzeSymbols.split(',')[0];

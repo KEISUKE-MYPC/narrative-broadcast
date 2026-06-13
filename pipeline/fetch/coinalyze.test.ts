@@ -7,10 +7,10 @@ const f = (n: string) =>
   JSON.parse(readFileSync(join(__dirname, `../__fixtures__/${n}`), 'utf8'));
 
 describe('parseFunding', () => {
-  it('converts value to percent', () => {
+  it('keeps value as-is (already a percent)', () => {
     const out = parseFunding(f('coinalyze_funding.json'));
     expect(out[0].symbol).toBe('BTCUSDT_PERP.A');
-    expect(out[0].pct).toBeCloseTo(0.0024, 4);
+    expect(out[0].pct).toBeCloseTo(0.005357, 6);
   });
 });
 
@@ -21,10 +21,10 @@ describe('parseLongShort', () => {
 });
 
 describe('parseOpenInterest', () => {
-  it('sums values', () => {
-    expect(parseOpenInterest(f('coinalyze_oi.json'))).toBe(6290000000);
+  it('returns the primary venue OI (not the sum)', () => {
+    expect(parseOpenInterest(f('coinalyze_oi.json'), 'BTCUSDT_PERP.A')).toBe(6252933884);
   });
   it('returns null for empty', () => {
-    expect(parseOpenInterest([])).toBeNull();
+    expect(parseOpenInterest([], 'BTCUSDT_PERP.A')).toBeNull();
   });
 });
