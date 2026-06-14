@@ -2,6 +2,8 @@ import { writeFileSync } from 'node:fs';
 import type { FetchBundle, SourceNote } from './types';
 import { btcConfig } from './config/btc';
 import { ethConfig } from './config/eth';
+import { xrpConfig } from './config/xrp';
+import { solConfig } from './config/sol';
 import { fetchCoinGecko } from './fetch/coingecko';
 import { fetchOnchain } from './fetch/bitcoindata';
 import { fetchCoinMetricsOnchain } from './fetch/coinmetrics';
@@ -16,7 +18,7 @@ import { generateArticle } from './generate';
 import { publish, datetimeJst } from './publish';
 import type { AssetConfig } from './types';
 
-const CONFIGS: Record<string, AssetConfig> = { btc: btcConfig, eth: ethConfig };
+const CONFIGS: Record<string, AssetConfig> = { btc: btcConfig, eth: ethConfig, xrp: xrpConfig, sol: solConfig };
 
 export function summarizeKeyData(b: FetchBundle): string {
   const parts: string[] = [];
