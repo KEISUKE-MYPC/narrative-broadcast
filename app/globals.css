@@ -29,7 +29,7 @@
   --on-ink-dim:oklch(0.76 0.013 230);
   --accent-glow: oklch(0.72 0.10 205);
 
-  --space-xs:4px; --space-sm:8px; --space-md:12px; --space-lg:16px;
+  --space-xs:4px; --space-sm:8px; --space-md:14px; --space-lg:16px;
   --space-xl:24px; --space-2xl:32px; --space-3xl:48px; --space-4xl:64px;
 
   --measure: 70ch;
@@ -79,7 +79,7 @@ a { color: inherit; text-decoration: none; }
   position: relative;
   font-family: var(--font-head); font-size: 14px; font-weight: 700; letter-spacing: 0.06em;
   color: var(--on-ink-dim);
-  padding: 14px 36px;
+  padding: 10px 30px;
   transition: color 0.2s, background 0.2s;
 }
 .site-nav a::after {
