@@ -49,7 +49,9 @@ export function NarrativeChart({
     if (el) el.scrollLeft = el.scrollWidth;
   }, [mounted, series.length]);
 
-  const innerWidth = `max(100%, ${series.length * PX_PER_POINT}px)`;
+  // 1点=PX_PER_POINTの一定間隔。点が多ければ横スクロール、少なければ左詰めで自然な間隔
+  // （100%下限を置くと、ETHのような少数点が全幅に引き伸ばされて間隔が広くなるため置かない）
+  const innerWidth = `${series.length * PX_PER_POINT}px`;
 
   // 固定Y軸ラベルの縦位置（本体のプロット領域と一致させる）
   const plotTop = MARGIN.top;
