@@ -8,6 +8,8 @@ import { notFound } from 'next/navigation';
 import { JsonLd } from '@/components/JsonLd';
 import { articleJsonLd, breadcrumbJsonLd, publishedISO } from '@/lib/seo';
 import { getArticleDescription } from '@/lib/excerpt';
+import { ArticleList } from '@/components/ArticleList';
+import { getRelatedRows } from '@/lib/related';
 
 export function generateStaticParams() {
   return getArticleSlugs().map((slug) => ({ slug: slug.split('/') }));
@@ -62,6 +64,7 @@ export default async function ArticlePage({
     articleJsonLd({ slug: slugPath, title: row?.narrative ?? 'ナラティブ分析', description, image: ogImage }),
     breadcrumbJsonLd({ slug: slugPath, categoryShort: cat.short }),
   ];
+  const related = getRelatedRows(slugPath);
 
   return (
     <>
@@ -82,6 +85,14 @@ export default async function ArticlePage({
           variant="hero"
         />
         <article className="article" dangerouslySetInnerHTML={{ __html: html }} />
+        {related.length > 0 && (
+          <section className="related-articles">
+            <h2 className="section-title">
+              <span className="ja">関連する分析</span>
+            </h2>
+            <ArticleList rows={related} />
+          </section>
+        )}
       </div>
       <TableOfContents items={toc} />
     </div>
