@@ -2,6 +2,8 @@ import { notFound } from 'next/navigation';
 import { getIndexRows } from '@/lib/index-parser';
 import { CATEGORIES, getCategory, categoryFromSlug } from '@/lib/categories';
 import { ArticleList } from '@/components/ArticleList';
+import { Pagination } from '@/components/Pagination';
+import { ARCHIVE_PER_PAGE } from '@/lib/pagination';
 import { NarrativeChart, type ChartPoint } from '@/components/NarrativeChart';
 
 // 登録済み分野（btc/eth…）だけを静的生成し、それ以外のslugは404にする
@@ -35,11 +37,14 @@ export default async function CategoryPage({ params }: { params: Promise<{ slug:
 
   // 当該分野の記事のみ（INDEXは新しい順）
   const rows = getIndexRows().filter((r) => categoryFromSlug(r.slug).slug === slug);
+  // チャートは全期間（推移の俯瞰用）、一覧は1ページ目だけページング表示
   const points: ChartPoint[] = rows.map((r) => ({
     datetime: r.datetime,
     strength: r.strength,
     narrative: r.narrative,
   }));
+  const total = Math.max(1, Math.ceil(rows.length / ARCHIVE_PER_PAGE));
+  const pageRows = rows.slice(0, ARCHIVE_PER_PAGE);
 
   return (
     <div className="container">
@@ -65,7 +70,10 @@ export default async function CategoryPage({ params }: { params: Promise<{ slug:
           <span className="ja">分析一覧</span>
         </h2>
         {rows.length > 0 ? (
-          <ArticleList rows={rows} />
+          <>
+            <ArticleList rows={pageRows} />
+            <Pagination current={1} total={total} basePath={`/c/${slug}`} />
+          </>
         ) : (
           <p className="cat-empty">この分野の分析はまだありません。</p>
         )}

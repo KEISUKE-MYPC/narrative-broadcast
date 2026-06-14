@@ -1,6 +1,7 @@
-// アーカイブのページ送り。ページ1は /archive、2以降は /archive/<n>。
-function href(p: number): string {
-  return p <= 1 ? '/archive' : `/archive/${p}`;
+// ページ送り。ページ1は basePath、2以降は <basePath>/<n>。
+// 例: basePath='/archive' → /archive, /archive/2 ／ basePath='/c/btc' → /c/btc, /c/btc/2
+function href(basePath: string, p: number): string {
+  return p <= 1 ? basePath : `${basePath}/${p}`;
 }
 
 // 表示するページ番号（先頭・末尾・現在の前後＋省略記号）
@@ -17,14 +18,22 @@ function pageItems(current: number, total: number): (number | '…')[] {
   return out;
 }
 
-export function Pagination({ current, total }: { current: number; total: number }) {
+export function Pagination({
+  current,
+  total,
+  basePath = '/archive',
+}: {
+  current: number;
+  total: number;
+  basePath?: string;
+}) {
   if (total <= 1) return null;
   const items = pageItems(current, total);
 
   return (
     <nav className="pagination" aria-label="ページ送り">
       {current > 1 && (
-        <a className="pg-link" href={href(current - 1)} rel="prev">
+        <a className="pg-link" href={href(basePath, current - 1)} rel="prev">
           ← 前へ
         </a>
       )}
@@ -41,7 +50,7 @@ export function Pagination({ current, total }: { current: number; total: number 
                   {it}
                 </span>
               ) : (
-                <a className="pg-num" href={href(it)}>
+                <a className="pg-num" href={href(basePath, it)}>
                   {it}
                 </a>
               )}
@@ -50,7 +59,7 @@ export function Pagination({ current, total }: { current: number; total: number 
         )}
       </ul>
       {current < total && (
-        <a className="pg-link" href={href(current + 1)} rel="next">
+        <a className="pg-link" href={href(basePath, current + 1)} rel="next">
           次へ →
         </a>
       )}
