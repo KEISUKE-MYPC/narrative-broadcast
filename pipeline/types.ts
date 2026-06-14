@@ -47,10 +47,11 @@ export type AssetConfig = {
   cycle: string;          // '6h'
   coingeckoId: string;    // 'bitcoin'
   glassnodeAsset: string; // 'BTC'
-  onchainSource: 'bitcoindata' | 'coinmetrics';
+  onchainSource: 'bitcoindata' | 'coinmetrics' | 'defillama-chain';
   santimentSize: number;  // 12
   coinalyzeSymbols: string;
   coinmetricsAsset?: string; // 'eth' など（未設定の場合はオンチェーン取得スキップ）
+  defillamaChain?: string;   // 'Solana' など（onchainSource='defillama-chain'時のチェーン名）
   polymarketSlug: string; // 'what-price-will-bitcoin-hit-before-2027'
   oddsTargets: string[];  // ['55000','50000','45000','100000','120000']
   baselineAth: number;    // 126080

@@ -31,6 +31,24 @@ export const CATEGORIES: Category[] = [
     accent: 'var(--accent)',
     ogAccent: '#8a92b2',
   },
+  {
+    slug: 'xrp',
+    label: 'XRP ナラティブ',
+    short: 'XRP',
+    description: '市場参加者の物語と認知を6時間ごとに構造分析',
+    symbol: '✕',
+    accent: 'var(--accent)',
+    ogAccent: '#7e8a99',
+  },
+  {
+    slug: 'sol',
+    label: 'Solana ナラティブ',
+    short: 'SOL',
+    description: '市場参加者の物語と認知を6時間ごとに構造分析',
+    symbol: '◎',
+    accent: 'var(--accent)',
+    ogAccent: '#66f9a1',
+  },
 ];
 
 export const DEFAULT_CATEGORY = 'btc';
