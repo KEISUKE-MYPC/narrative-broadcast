@@ -5,6 +5,9 @@ import { getIndexRowBySlug } from '@/lib/index-parser';
 import { Eyecatch } from '@/components/Eyecatch';
 import { TableOfContents } from '@/components/TableOfContents';
 import { notFound } from 'next/navigation';
+import { JsonLd } from '@/components/JsonLd';
+import { articleJsonLd, breadcrumbJsonLd, publishedISO } from '@/lib/seo';
+import { getArticleDescription } from '@/lib/excerpt';
 
 export function generateStaticParams() {
   return getArticleSlugs().map((slug) => ({ slug: slug.split('/') }));
@@ -21,10 +24,22 @@ export async function generateMetadata({
   const title = row?.narrative ?? 'ナラティブ分析';
   // OGは分野ごとの1枚を使い回す（記事数に依存せずビルドが軽い）
   const ogImage = `/og/${categoryFromSlug(slugPath).slug}`;
+  const description = getArticleDescription(slugPath);
+  const canonical = `/articles/${slugPath}`;
+  const publishedTime = publishedISO(slugPath);
   return {
     title,
-    openGraph: { title, images: [ogImage] },
-    twitter: { card: 'summary_large_image', title, images: [ogImage] },
+    description,
+    alternates: { canonical },
+    openGraph: {
+      type: 'article',
+      title,
+      description,
+      url: canonical,
+      images: [ogImage],
+      ...(publishedTime ? { publishedTime } : {}),
+    },
+    twitter: { card: 'summary_large_image', title, description, images: [ogImage] },
   };
 }
 
@@ -41,9 +56,17 @@ export default async function ArticlePage({
   const toc = extractToc(html);
   const cat = categoryFromSlug(slugPath);
   const row = getIndexRowBySlug(slugPath);
+  const description = getArticleDescription(slugPath);
+  const ogImage = `/og/${cat.slug}`;
+  const seoData = [
+    articleJsonLd({ slug: slugPath, title: row?.narrative ?? 'ナラティブ分析', description, image: ogImage }),
+    breadcrumbJsonLd({ slug: slugPath, categoryShort: cat.short }),
+  ];
 
   return (
-    <div className="container article-layout">
+    <>
+      <JsonLd data={seoData} />
+      <div className="container article-layout">
       <div className="article-col">
         <nav className="crumbs" aria-label="パンくず">
           <a href="/">ホーム</a>
@@ -62,5 +85,6 @@ export default async function ArticlePage({
       </div>
       <TableOfContents items={toc} />
     </div>
+    </>
   );
 }
