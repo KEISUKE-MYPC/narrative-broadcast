@@ -47,6 +47,7 @@ export type AssetConfig = {
   cycle: string;          // '6h'
   coingeckoId: string;    // 'bitcoin'
   glassnodeAsset: string; // 'BTC'
+  onchainSource: 'bitcoindata' | 'coinmetrics';
   santimentSize: number;  // 12
   coinalyzeSymbols: string;
   coinmetricsAsset?: string; // 'eth' など（未設定の場合はオンチェーン取得スキップ）

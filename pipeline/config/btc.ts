@@ -5,6 +5,7 @@ export const btcConfig: AssetConfig = {
   cycle: '6h',
   coingeckoId: 'bitcoin',
   glassnodeAsset: 'BTC',
+  onchainSource: 'bitcoindata',
   santimentSize: 12,
   coinalyzeSymbols:
     'BTCUSDT_PERP.A,BTCUSD_PERP.A,BTC-PERPETUAL.2,BTCUSDT_PERP.4,BTCUSDT_PERP.F',
