@@ -1,0 +1,42 @@
+name: backfill-strength
+# 過去記事のナラティブ強度を一括で判定し直し INDEX.md を更新する一回限りの手動ジョブ。
+# 強度がバグで 1/10 固定だった履歴を埋めるためのもの。通常運用では使わない。
+on:
+  workflow_dispatch:
+    inputs:
+      dry_run:
+        description: 'judge only, do not commit (true/false)'
+        required: false
+        default: 'false'
+
+permissions:
+  contents: write
+
+# publish と同じ INDEX.md を触るため、公開ジョブと直列化して競合を避ける
+concurrency:
+  group: publish-btc
+  cancel-in-progress: false
+
+jobs:
+  backfill:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-node@v6
+        with:
+          node-version: '24'
+      - run: npm ci
+      - name: Backfill strength
+        env:
+          OLLAMA_API_KEY: ${{ secrets.OLLAMA_API_KEY }}
+        run: npx tsx pipeline/backfill-strength.ts ${{ github.event.inputs.dry_run == 'true' && '--dry-run' || '' }}
+      - name: Commit & push to main
+        if: ${{ github.event.inputs.dry_run != 'true' }}
+        run: |
+          git config user.name "KEISUKE-MYPC"
+          git config user.email "keisukematsu0820@gmail.com"
+          git add -A
+          if git diff --cached --quiet; then echo "no changes"; exit 0; fi
+          git commit -m "backfill: 過去記事のナラティブ強度を再判定 (auto)"
+          git pull --rebase origin main
+          git push origin HEAD:main

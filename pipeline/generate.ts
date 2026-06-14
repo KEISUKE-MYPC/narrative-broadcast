@@ -1,4 +1,4 @@
-type Opts = { apiKey: string; fetchImpl?: typeof fetch };
+type Opts = { apiKey: string; fetchImpl?: typeof fetch; think?: boolean };
 
 export async function generateArticle(prompt: string, opts: Opts): Promise<string> {
   const f = opts.fetchImpl ?? fetch;
@@ -6,7 +6,7 @@ export async function generateArticle(prompt: string, opts: Opts): Promise<strin
     model: 'nemotron-3-ultra:cloud',
     messages: [{ role: 'user', content: prompt }],
     stream: false,
-    think: true,
+    think: opts.think ?? true, // 記事生成は推論ON。短い判定タスク等はfalseで高速化
   });
   const call = async () => {
     const res = await f('https://ollama.com/api/chat', {
