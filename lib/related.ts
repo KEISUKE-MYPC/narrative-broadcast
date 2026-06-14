@@ -16,6 +16,7 @@ export function selectRelated(
 }
 
 // slug の関連記事（同カテゴリ最新 limit 件）を返す。
+// 「最新」は getIndexRows() が新しい順（INDEX.md生成側の契約）であることに依存する。
 export function getRelatedRows(slug: string, limit = 6): IndexRow[] {
   return selectRelated(getIndexRows(), slug, limit);
 }
