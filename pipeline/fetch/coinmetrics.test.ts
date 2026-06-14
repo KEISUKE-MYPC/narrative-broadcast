@@ -21,4 +21,11 @@ describe('parseCoinMetrics', () => {
   it('dataが空なら空metrics', () => {
     expect(parseCoinMetrics({ data: [] }).metrics).toEqual([]);
   });
+  it('XRP: フロー欠落時はMVRVと活動アドレスのみ', () => {
+    const o = parseCoinMetrics(f('coinmetrics_xrp.json'));
+    expect(o.asof).toBe('2026-06-13');
+    expect(o.metrics.map((m) => m.label)).toEqual(['MVRV', '活動アドレス']);
+    expect(Number(o.metrics.find((m) => m.label === 'MVRV')!.value)).toBeCloseTo(0.785, 2);
+    expect(Number(o.metrics.find((m) => m.label === '活動アドレス')!.value)).toBe(31184);
+  });
 });
