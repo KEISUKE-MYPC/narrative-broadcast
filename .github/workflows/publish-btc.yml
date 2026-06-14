@@ -5,7 +5,7 @@ on:
   workflow_dispatch:
     inputs:
       asset:
-        description: 'asset key (btc/eth)'
+        description: 'asset key (btc/eth/xrp/sol)'
         required: false
         default: 'btc'
 
