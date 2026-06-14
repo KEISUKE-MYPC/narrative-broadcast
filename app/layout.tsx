@@ -39,8 +39,8 @@ export default function RootLayout({ children }: { children: ReactNode }) {
               </span>
             </a>
           </div>
-          <SiteNav />
         </header>
+        <SiteNav />
 
         <main className="page-main">{children}</main>
 
