@@ -10,6 +10,9 @@ export const metadata = {
   title: 'Narrative Broadcast - 市場参加者の物語と認知を構造分析するナラティブ観測メディア',
   description:
     '市場参加者の物語と認知を構造分析するナラティブ観測メディア',
+  verification: {
+    google: 'rq4tjRcaq_uRdmhi4vYFxtUe3kkE31-7VkYVushrnCU',
+  },
 };
 
 export default function RootLayout({ children }: { children: ReactNode }) {
