@@ -1,6 +1,8 @@
 import type { ReactNode } from 'react';
 import { Analytics } from '@vercel/analytics/next';
 import { SiteNav } from '@/components/SiteNav';
+import { JsonLd } from '@/components/JsonLd';
+import { websiteJsonLd, organizationJsonLd } from '@/lib/seo';
 import './globals.css';
 
 export const metadata = {
@@ -22,6 +24,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
         />
       </head>
       <body>
+        <JsonLd data={[websiteJsonLd(), organizationJsonLd()]} />
         <header className="masthead">
           <div className="masthead-inner">
             <a href="/" className="wordmark">
