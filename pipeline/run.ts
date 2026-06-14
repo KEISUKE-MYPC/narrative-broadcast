@@ -20,10 +20,11 @@ import type { AssetConfig } from './types';
 
 const CONFIGS: Record<string, AssetConfig> = { btc: btcConfig, eth: ethConfig, xrp: xrpConfig, sol: solConfig };
 
-export function summarizeKeyData(b: FetchBundle): string {
+export function summarizeKeyData(b: FetchBundle, cfg: AssetConfig): string {
   const parts: string[] = [];
-  if (b.market) parts.push(`BTC$${b.market.price_usd.toLocaleString('en-US')}（ATH${b.market.ath_change_pct}%）`);
-  if (b.market) parts.push(`ドミナンス${b.market.btc_dominance}%`);
+  // 銘柄ごとのティッカーを接頭辞に（旧実装は全銘柄"BTC$"固定だった）。%は2桁丸め。
+  if (b.market) parts.push(`${cfg.glassnodeAsset}$${b.market.price_usd.toLocaleString('en-US')}（ATH${b.market.ath_change_pct.toFixed(2)}%）`);
+  if (b.market) parts.push(`BTCドミナンス${b.market.btc_dominance.toFixed(2)}%`);
   if (b.onchain && b.onchain.metrics.length) { const m = b.onchain.metrics[0]; parts.push(`${m.label}${m.value ?? 'N/A'}`); }
   return parts.join('・');
 }
@@ -69,7 +70,7 @@ async function main() {
     console.log(`\n--- article ---\n${article}`);
     return;
   }
-  const res = publish({ cfg, markdown: article, keyData: summarizeKeyData(bundle), now, root: process.cwd() });
+  const res = publish({ cfg, markdown: article, keyData: summarizeKeyData(bundle, cfg), now, root: process.cwd() });
   console.log(res.skipped ? `skipped (exists): ${res.path}` : `published: ${res.path}`);
 }
 
