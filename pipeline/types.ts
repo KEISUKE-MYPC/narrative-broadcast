@@ -49,6 +49,7 @@ export type AssetConfig = {
   glassnodeAsset: string; // 'BTC'
   santimentSize: number;  // 12
   coinalyzeSymbols: string;
+  coinmetricsAsset?: string; // 'eth' など（未設定の場合はオンチェーン取得スキップ）
   polymarketSlug: string; // 'what-price-will-bitcoin-hit-before-2027'
   oddsTargets: string[];  // ['55000','50000','45000','100000','120000']
   baselineAth: number;    // 126080
