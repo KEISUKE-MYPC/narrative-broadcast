@@ -21,3 +21,61 @@ export function publishedISO(slug: string): string {
   }
   return '';
 }
+
+export function websiteJsonLd() {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'WebSite',
+    name: SITE_NAME,
+    url: SITE_URL,
+    description: SITE_DESCRIPTION,
+    inLanguage: 'ja',
+  };
+}
+
+export function organizationJsonLd() {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'Organization',
+    name: SITE_NAME,
+    url: SITE_URL,
+    logo: absoluteUrl('/icon'),
+  };
+}
+
+export function articleJsonLd(args: {
+  slug: string; title: string; description: string; image: string;
+}) {
+  const url = absoluteUrl(`/articles/${args.slug}`);
+  const published = publishedISO(args.slug);
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'Article',
+    headline: args.title,
+    description: args.description,
+    image: absoluteUrl(args.image),
+    datePublished: published,
+    dateModified: published,
+    inLanguage: 'ja',
+    mainEntityOfPage: { '@type': 'WebPage', '@id': url },
+    author: { '@type': 'Organization', name: SITE_NAME, url: SITE_URL },
+    publisher: {
+      '@type': 'Organization',
+      name: SITE_NAME,
+      url: SITE_URL,
+      logo: { '@type': 'ImageObject', url: absoluteUrl('/icon') },
+    },
+  };
+}
+
+export function breadcrumbJsonLd(args: { slug: string; categoryShort: string }) {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'ホーム', item: SITE_URL },
+      { '@type': 'ListItem', position: 2, name: 'アーカイブ', item: absoluteUrl('/archive') },
+      { '@type': 'ListItem', position: 3, name: args.categoryShort, item: absoluteUrl(`/articles/${args.slug}`) },
+    ],
+  };
+}
