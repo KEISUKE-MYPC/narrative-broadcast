@@ -2,7 +2,12 @@ name: publish-btc
 on:
   # 発火は外部cron(cron-job.org)からのworkflow_dispatchに一本化。
   # GitHub schedule cronは遅延・スキップが直せないため廃止した（2026-06-14）。
-  workflow_dispatch: {}
+  workflow_dispatch:
+    inputs:
+      asset:
+        description: 'asset key (btc/eth)'
+        required: false
+        default: 'btc'
 
 permissions:
   contents: write
@@ -27,7 +32,7 @@ jobs:
           SANTIMENT_API_KEY: ${{ secrets.SANTIMENT_API_KEY }}
           COINALYZE_API_KEY: ${{ secrets.COINALYZE_API_KEY }}
           COINGECKO_API_KEY: ${{ secrets.COINGECKO_API_KEY }}
-        run: npx tsx pipeline/run.ts btc
+        run: npx tsx pipeline/run.ts ${{ github.event.inputs.asset || 'btc' }}
       - name: Commit & push to main
         run: |
           # Vercel Hobby はコミット作者がアカウント所有者でないとデプロイを拒否するため、
