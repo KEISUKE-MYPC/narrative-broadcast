@@ -340,6 +340,15 @@ a { color: inherit; text-decoration: none; }
   letter-spacing: 0.02em; margin: var(--space-3xl) 0 var(--space-xl); }
 .page-sub { font-size: 15px; font-weight: 600; color: var(--text-faint); font-variant-numeric: tabular-nums; }
 
+/* 分野ページの見出し（/c/[slug]） */
+.cat-head { margin: var(--space-3xl) 0 var(--space-2xl); }
+.cat-head-chip { display: inline-block; font-family: var(--font-head); font-weight: 700;
+  font-size: 12px; letter-spacing: 0.08em; color: var(--accent-ink);
+  padding: 4px 12px; border-radius: 999px; background: var(--accent-wash); border: 1px solid var(--accent); }
+.cat-head .page-title { margin: var(--space-md) 0 var(--space-xs); }
+.cat-head-desc { font-size: 14px; color: var(--text-dim); margin: 0; }
+.cat-empty { font-size: 14px; color: var(--text-faint); padding: var(--space-xl) 0; }
+
 /* ページ送り */
 .pagination { display: flex; align-items: center; justify-content: center; flex-wrap: wrap;
   gap: var(--space-md); margin: var(--space-3xl) 0 var(--space-4xl); }
