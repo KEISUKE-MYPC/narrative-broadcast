@@ -5,6 +5,7 @@ import { ethConfig } from './config/eth';
 import { fetchCoinGecko } from './fetch/coingecko';
 import { fetchOnchain } from './fetch/bitcoindata';
 import { fetchCoinMetricsOnchain } from './fetch/coinmetrics';
+import { fetchDefiLlamaChain } from './fetch/defillama-chain';
 import { fetchSantiment } from './fetch/santiment';
 import { fetchCoinalyze } from './fetch/coinalyze';
 import { fetchPolymarket } from './fetch/polymarket';
@@ -33,7 +34,10 @@ async function collect(cfg: AssetConfig): Promise<FetchBundle> {
   };
   const [market, onchain, trends, positions, odds, stables] = await Promise.all([
     safe('CoinGecko', () => fetchCoinGecko(cfg)),
-    safe('Onchain', () => cfg.onchainSource === 'coinmetrics' ? fetchCoinMetricsOnchain(cfg, notes) : fetchOnchain(notes)),
+    safe('Onchain', () =>
+      cfg.onchainSource === 'coinmetrics' ? fetchCoinMetricsOnchain(cfg, notes)
+      : cfg.onchainSource === 'defillama-chain' ? fetchDefiLlamaChain(cfg, notes)
+      : fetchOnchain(notes)),
     safe('Santiment', () => fetchSantiment(cfg)),
     safe('Coinalyze', () => fetchCoinalyze(cfg, notes)),
     safe('Polymarket', () => cfg.polymarketSlug ? fetchPolymarket(cfg) : Promise.resolve(null)),
