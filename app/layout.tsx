@@ -7,7 +7,10 @@ import './globals.css';
 
 export const metadata = {
   metadataBase: new URL('https://narrative-broadcast.com'),
-  title: 'Narrative Broadcast - 市場参加者の物語と認知を構造分析するナラティブ観測メディア',
+  title: {
+    default: 'Narrative Broadcast - 市場参加者の物語と認知を構造分析するナラティブ観測メディア',
+    template: '%s | Narrative Broadcast',
+  },
   description:
     '市場参加者の物語と認知を構造分析するナラティブ観測メディア',
   verification: {
