@@ -6,6 +6,14 @@ import { notFound } from 'next/navigation';
 
 export const dynamicParams = false;
 
+export async function generateMetadata({ params }: { params: Promise<{ page: string }> }) {
+  const { page } = await params;
+  return {
+    title: `アーカイブ (${page}ページ目)`,
+    alternates: { canonical: `/archive/${page}` },
+  };
+}
+
 function totalPages(): number {
   return Math.max(1, Math.ceil(getIndexRows().length / ARCHIVE_PER_PAGE));
 }

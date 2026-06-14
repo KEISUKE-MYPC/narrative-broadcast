@@ -1,4 +1,8 @@
 import { getIndexRows } from '@/lib/index-parser';
+
+export const metadata = {
+  alternates: { canonical: '/' },
+};
 import { categoryFromSlug, CATEGORIES } from '@/lib/categories';
 import { ArticleList } from '@/components/ArticleList';
 import { ChartSwitcher, type ChartSeries } from '@/components/ChartSwitcher';

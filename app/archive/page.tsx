@@ -1,4 +1,10 @@
 import { getIndexRows } from '@/lib/index-parser';
+
+export const metadata = {
+  title: 'アーカイブ',
+  description: '過去のナラティブ分析記事の一覧。',
+  alternates: { canonical: '/archive' },
+};
 import { ArticleList } from '@/components/ArticleList';
 import { Pagination } from '@/components/Pagination';
 import { ARCHIVE_PER_PAGE } from '@/lib/pagination';
