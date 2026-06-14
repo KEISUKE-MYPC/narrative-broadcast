@@ -10,6 +10,7 @@ import { articleJsonLd, breadcrumbJsonLd, publishedISO } from '@/lib/seo';
 import { getArticleDescription } from '@/lib/excerpt';
 import { ArticleList } from '@/components/ArticleList';
 import { getRelatedRows } from '@/lib/related';
+import { shortTitle } from '@/lib/title';
 
 export function generateStaticParams() {
   return getArticleSlugs().map((slug) => ({ slug: slug.split('/') }));
@@ -23,7 +24,7 @@ export async function generateMetadata({
   const { slug } = await params;
   const slugPath = slug.join('/');
   const row = getIndexRowBySlug(slugPath);
-  const title = row?.narrative ?? 'ナラティブ分析';
+  const title = shortTitle(row?.narrative ?? 'ナラティブ分析');
   // OGは分野ごとの1枚を使い回す（記事数に依存せずビルドが軽い）
   const ogImage = `/og/${categoryFromSlug(slugPath).slug}`;
   const description = getArticleDescription(slugPath);
@@ -61,7 +62,7 @@ export default async function ArticlePage({
   const description = getArticleDescription(slugPath);
   const ogImage = `/og/${cat.slug}`;
   const seoData = [
-    articleJsonLd({ slug: slugPath, title: row?.narrative ?? 'ナラティブ分析', description, image: ogImage }),
+    articleJsonLd({ slug: slugPath, title: shortTitle(row?.narrative ?? 'ナラティブ分析'), description, image: ogImage }),
     breadcrumbJsonLd({ slug: slugPath, categoryShort: cat.short }),
   ];
   const related = getRelatedRows(slugPath);
