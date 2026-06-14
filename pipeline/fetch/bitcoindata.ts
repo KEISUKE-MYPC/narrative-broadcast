@@ -14,13 +14,14 @@ const METRICS: { key: 'mvrv_z' | 'sopr'; path: string; field: string }[] = [
 ];
 
 export async function fetchOnchain(notes: SourceNote[]): Promise<OnchainData> {
-  const out: OnchainData = { mvrv_z: null, sopr: null, asof: null };
+  const out: OnchainData = { asof: null, metrics: [] };
+  const labels: Record<string, string> = { mvrv_z: 'MVRV-Z', sopr: 'SOPR' };
   for (const m of METRICS) {
     try {
       const res = await fetch(`https://bitcoin-data.com/v1/${m.path}/last`);
       if (!res.ok) throw new Error(`status ${res.status}`);
       const parsed = parseBitcoinDataMetric(await res.json(), m.field);
-      out[m.key] = parsed.value;
+      out.metrics.push({ label: labels[m.key], value: parsed.value });
       if (parsed.asof) out.asof = parsed.asof;
     } catch (e) {
       notes.push({ source: 'bitcoin-data', message: `${m.path}: ${(e as Error).message}` });

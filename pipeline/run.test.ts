@@ -4,7 +4,7 @@ import type { FetchBundle } from './types';
 
 const bundle = {
   market: { price_usd: 63631, ath_change_pct: -49.53, btc_dominance: 56.39 },
-  onchain: { mvrv_z: 0.344, sopr: 0.988 },
+  onchain: { asof: null, metrics: [{ label: 'MVRV-Z', value: 0.344 }] },
 } as unknown as FetchBundle;
 
 describe('summarizeKeyData', () => {

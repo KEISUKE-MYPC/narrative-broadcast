@@ -19,7 +19,7 @@ export function summarizeKeyData(b: FetchBundle): string {
   const parts: string[] = [];
   if (b.market) parts.push(`BTC$${b.market.price_usd.toLocaleString('en-US')}（ATH${b.market.ath_change_pct}%）`);
   if (b.market) parts.push(`ドミナンス${b.market.btc_dominance}%`);
-  if (b.onchain) parts.push(`MVRV-Z${b.onchain.mvrv_z ?? 'N/A'}/SOPR${b.onchain.sopr ?? 'N/A'}`);
+  if (b.onchain && b.onchain.metrics.length) { const m = b.onchain.metrics[0]; parts.push(`${m.label}${m.value ?? 'N/A'}`); }
   return parts.join('・');
 }
 

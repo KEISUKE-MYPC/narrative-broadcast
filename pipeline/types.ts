@@ -10,11 +10,8 @@ export type MarketData = {
   sectors_top: { name: string; chg24h: number }[];
 };
 
-export type OnchainData = {
-  mvrv_z: number | null;
-  sopr: number | null;
-  asof: string | null; // 最新データ点の日付(YYYY-MM-DD)
-};
+export type OnchainMetric = { label: string; value: number | string | null };
+export type OnchainData = { asof: string | null; metrics: OnchainMetric[] };
 
 export type TrendWord = { word: string; score: number };
 
