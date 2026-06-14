@@ -436,3 +436,10 @@ a { color: inherit; text-decoration: none; }
   .card-grid { grid-template-columns: 1fr; }
   .wordmark-sub { display: none; }
 }
+
+/* 記事下部の関連記事 */
+.related-articles {
+  margin-top: 3rem;
+  padding-top: 2rem;
+  border-top: 1px solid var(--hair);
+}
