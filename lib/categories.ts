@@ -22,6 +22,15 @@ export const CATEGORIES: Category[] = [
     accent: 'var(--accent)',
     ogAccent: '#5cc6da', // OG画像用の実色（≒ --accent oklch(0.78 0.10 205)）
   },
+  {
+    slug: 'eth',
+    label: 'Ethereum ナラティブ',
+    short: 'ETH',
+    description: '市場参加者の物語と認知を6時間ごとに構造分析',
+    symbol: 'Ξ',
+    accent: 'var(--accent)',
+    ogAccent: '#8a92b2',
+  },
 ];
 
 export const DEFAULT_CATEGORY = 'btc';
