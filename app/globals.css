@@ -305,10 +305,11 @@ a { color: inherit; text-decoration: none; }
   -webkit-mask-image: linear-gradient(180deg, #000, transparent 94%);
   mask-image: linear-gradient(180deg, #000, transparent 94%);
 }
-.ec-symbol {
-  position: absolute; right: 3cqw; top: 50%; transform: translateY(-54%); z-index: -1;
-  font-family: var(--font-head); font-weight: 900; font-size: 48cqw; line-height: 1;
-  color: var(--ec-accent); opacity: 0.15;
+/* コイン公式ロゴ（フルカラー焦点シンボル）。右側に配置し、ラベルと重ならないよう幅を抑える */
+.ec-symbol-img {
+  position: absolute; right: 5cqw; top: 50%; transform: translateY(-50%); z-index: 0;
+  width: 20cqw; height: 20cqw;
+  filter: drop-shadow(0 2px 8px oklch(0 0 0 / 0.35));
 }
 .ec-chip {
   align-self: start; justify-self: start;
@@ -319,7 +320,7 @@ a { color: inherit; text-decoration: none; }
   padding: 1.3cqw 3.2cqw; border-radius: 999px;
 }
 .ec-label {
-  align-self: center; margin: 0;
+  align-self: center; margin: 0; max-width: 70cqw;
   font-family: var(--font-head); font-weight: 700; font-size: 5cqw; line-height: 1.25;
   letter-spacing: 0.01em; color: var(--on-ink); text-wrap: balance;
 }

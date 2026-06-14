@@ -17,7 +17,8 @@ export function Eyecatch({ slug, strength, datetime, variant = 'card' }: Props) 
   return (
     <div className={`eyecatch eyecatch-${variant}`} style={style} aria-hidden="true">
       <div className="ec-grid" />
-      <span className="ec-symbol">{cat.symbol}</span>
+      {/* コインの公式ロゴ（フルカラー）を焦点シンボルに（規約: /icons/<slug>.svg） */}
+      <img className="ec-symbol-img" src={`/icons/${cat.slug}.svg`} alt="" />
       <span className="ec-chip">{cat.short}</span>
       <p className="ec-label">{cat.label}</p>
       <div className="ec-foot">

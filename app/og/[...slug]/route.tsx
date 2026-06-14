@@ -1,6 +1,19 @@
 import { ImageResponse } from 'next/og';
+import { readFile } from 'node:fs/promises';
+import { join } from 'node:path';
 import { CATEGORIES, getCategory } from '@/lib/categories';
 import { loadGoogleFont } from '@/lib/og-font';
+
+// 分野の公式ロゴSVGを読み込み data URI 化する（satoriは<img>のdata URIを描画できる）。
+// 未配置の分野は null を返し、呼び出し側で文字ウォーターマークにフォールバックする。
+async function loadIconDataUri(slug: string): Promise<string | null> {
+  try {
+    const svg = await readFile(join(process.cwd(), 'public', 'icons', `${slug}.svg`), 'utf8');
+    return `data:image/svg+xml;base64,${Buffer.from(svg).toString('base64')}`;
+  } catch {
+    return null;
+  }
+}
 
 // 分野ごとに1枚だけ生成し、その分野の全記事で使い回す（記事数に依存せずビルドが軽い）。
 // URL は /og/<分野slug>（例: /og/btc）。slugは1セグメント想定。
@@ -23,6 +36,7 @@ export async function GET(
   const { slug } = await params;
   const cat = getCategory(slug[0]);
   const accent = cat.ogAccent;
+  const logo = await loadIconDataUri(cat.slug);
 
   const font = await loadGoogleFont(
     'Zen Kaku Gothic New',
@@ -33,6 +47,10 @@ export async function GET(
     ? [{ name: 'Zen Kaku Gothic New', data: font, weight: 700 as const, style: 'normal' as const }]
     : [];
   const label = font ? cat.label : cat.short;
+  // 「<英語名> ナラティブ」を最初の空白で2行に分割（コイン名の長さに依存せず綺麗に改行）。
+  // 空白が無い（フォント未読込でshort表示など）場合は1行。
+  const sp = label.indexOf(' ');
+  const labelLines = sp >= 0 ? [label.slice(0, sp), label.slice(sp + 1)] : [label];
 
   return new ImageResponse(
     (
@@ -52,22 +70,31 @@ export async function GET(
       >
         {/* 上端アクセントライン */}
         <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: 6, background: accent, opacity: 0.85 }} />
-        {/* 分野シンボル（ウォーターマーク） */}
-        <div
-          style={{
-            position: 'absolute',
-            right: 24,
-            top: 90,
-            fontSize: 460,
-            fontWeight: 700,
-            color: accent,
-            opacity: 0.14,
-            lineHeight: 1,
-            display: 'flex',
-          }}
-        >
-          {cat.short}
-        </div>
+        {/* 分野の公式ロゴ（フルカラー焦点シンボル）。未配置なら文字ウォーターマークにフォールバック */}
+        {logo ? (
+          <img
+            src={logo}
+            width={340}
+            height={340}
+            style={{ position: 'absolute', right: 72, top: 145 }}
+          />
+        ) : (
+          <div
+            style={{
+              position: 'absolute',
+              right: 24,
+              top: 90,
+              fontSize: 460,
+              fontWeight: 700,
+              color: accent,
+              opacity: 0.14,
+              lineHeight: 1,
+              display: 'flex',
+            }}
+          >
+            {cat.short}
+          </div>
+        )}
 
         {/* 上段：分野チップ */}
         <div style={{ display: 'flex' }}>
@@ -88,9 +115,16 @@ export async function GET(
           </div>
         </div>
 
-        {/* 中段：分野ラベル */}
-        <div style={{ display: 'flex', fontSize: 92, fontWeight: 700, letterSpacing: 1, color: ON_INK, maxWidth: 900 }}>
-          {label}
+        {/* 中段：分野ラベル（英語名／ナラティブ の2行） */}
+        <div style={{ display: 'flex', flexDirection: 'column', maxWidth: 620 }}>
+          {labelLines.map((ln, i) => (
+            <div
+              key={i}
+              style={{ display: 'flex', fontSize: 92, fontWeight: 700, letterSpacing: 1, lineHeight: 1.12, color: ON_INK }}
+            >
+              {ln}
+            </div>
+          ))}
         </div>
 
         {/* 下段：ブランド */}
