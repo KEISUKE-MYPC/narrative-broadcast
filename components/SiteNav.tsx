@@ -9,19 +9,21 @@ export function SiteNav() {
 
   return (
     <nav className="site-nav" aria-label="分野">
-      {CATEGORIES.map((c) => {
-        const active = pathname?.startsWith(`/c/${c.slug}`);
-        return (
-          <a
-            key={c.slug}
-            href={`/c/${c.slug}`}
-            className={active ? 'is-active' : undefined}
-            aria-current={active ? 'page' : undefined}
-          >
-            {c.short}
-          </a>
-        );
-      })}
+      <div className="site-nav-inner">
+        {CATEGORIES.map((c) => {
+          const active = pathname?.startsWith(`/c/${c.slug}`);
+          return (
+            <a
+              key={c.slug}
+              href={`/c/${c.slug}`}
+              className={active ? 'is-active' : undefined}
+              aria-current={active ? 'page' : undefined}
+            >
+              {c.short}
+            </a>
+          );
+        })}
+      </div>
     </nav>
   );
 }

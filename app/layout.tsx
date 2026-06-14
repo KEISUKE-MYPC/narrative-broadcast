@@ -38,8 +38,8 @@ export default function RootLayout({ children }: { children: ReactNode }) {
                 Narrative Broadcast
               </span>
             </a>
-            <SiteNav />
           </div>
+          <SiteNav />
         </header>
 
         <main className="page-main">{children}</main>
