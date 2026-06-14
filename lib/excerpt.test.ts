@@ -32,4 +32,12 @@ describe('extractDescription', () => {
   it('実段落が無ければ空文字を返す', () => {
     expect(extractDescription('# 見出しだけ\n\n> 引用だけ', 100)).toBe('');
   });
+  it('※始まりの注釈行はスキップしてリード段落を採用する', () => {
+    const raw = [
+      '## 現在の支配的ナラティブ',
+      '※Glassnode公開枠は更新停止のため同一値です。',
+      'BTC自前の物語が不在のまま価格は半値圏で推移している。',
+    ].join('\n');
+    expect(extractDescription(raw, 200).startsWith('BTC自前の物語が不在')).toBe(true);
+  });
 });

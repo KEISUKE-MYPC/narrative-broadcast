@@ -20,6 +20,7 @@ export function extractDescription(raw: string, maxLen = 150): string {
     if (line.startsWith('>')) continue;       // 引用
     if (line.startsWith('|')) continue;       // 表
     if (line.startsWith('<!--')) continue;    // コメント
+    if (line.startsWith('※')) continue;       // 注釈・出典注記
     if (line.startsWith('-') || line.startsWith('*') || /^\d+\./.test(line)) continue; // リスト
     para = line;
     break;
