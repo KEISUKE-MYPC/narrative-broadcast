@@ -2,7 +2,7 @@ import type { FetchBundle, AssetConfig } from './types';
 
 const GUARDRAILS = `# 厳守ルール（runbook §1/§4）
 1. スコア系（Fear&Greed, sentiment_balance等）を結論にしない。「どう語られているか」の構造で論じる。
-2. ベースライン必須：基準ATH $126,080（2025-10-06）から見て今どこかを述べる。
+2. ベースライン必須：基準ATH（下記）から見て今どこかを述べる。
 3. 断定・価格予想・売買助言をしない。認知の歪みの指摘に留める。
 4. 専門用語は初出時に括弧で一言補足（リテール向け・詰め込みすぎない）。
 5. reflexivity（価格↔ナラティブの共変・リード/ラグ）を判定する。層（言説/ポジション/オンチェーン）の食い違いに注目。
@@ -25,6 +25,9 @@ function fmtData(b: FetchBundle): string {
 export function buildPrompt(
   bundle: FetchBundle, recentAngles: string[], cfg: AssetConfig, asofJST: string,
 ): string {
+  const baseline = cfg.baselineAth
+    ? `\n# ベースライン\n基準ATH $${cfg.baselineAth}（${cfg.baselineAthDate}）から見て今どこかを必ず述べる。\n`
+    : '';
   const notesBlock = bundle.notes.length
     ? `\n# 取得失敗ソース（記事冒頭の注記に明記して続行）\n${bundle.notes.map((n) => `- ${n.source}: ${n.message}`).join('\n')}\n`
     : '';
@@ -34,7 +37,7 @@ export function buildPrompt(
   return `あなたは「Narrative Broadcast」の書き手。${cfg.promptIntro}
 
 ${GUARDRAILS}
-
+${baseline}
 # 今サイクルの実データ（${asofJST} JST 取得）
 ${fmtData(bundle)}
 ${notesBlock}${recentBlock}

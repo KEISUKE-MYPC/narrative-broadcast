@@ -36,7 +36,7 @@ async function collect(cfg: AssetConfig): Promise<FetchBundle> {
     safe('Onchain', () => cfg.onchainSource === 'coinmetrics' ? fetchCoinMetricsOnchain(cfg, notes) : fetchOnchain(notes)),
     safe('Santiment', () => fetchSantiment(cfg)),
     safe('Coinalyze', () => fetchCoinalyze(cfg, notes)),
-    safe('Polymarket', () => fetchPolymarket(cfg)),
+    safe('Polymarket', () => cfg.polymarketSlug ? fetchPolymarket(cfg) : Promise.resolve(null)),
     safe('DefiLlama', () => fetchDefiLlama()),
   ]);
   return { market, onchain, trends, positions, odds, stables, notes };
