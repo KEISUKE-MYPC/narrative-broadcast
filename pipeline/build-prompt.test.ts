@@ -27,6 +27,12 @@ describe('buildPrompt', () => {
     expect(p).toContain('$6.29B'); // OIはB単位整形（生数値でnemotronが桁を読み違えるのを防ぐ）
   });
 
+  it('includes the plain-style guardrail prohibiting coinage and layered metaphor', () => {
+    const p = buildPrompt(bundle, [], btcConfig, '2026-06-13 15:06');
+    expect(p).toContain('一文一義');
+    expect(p).toContain('独自の造語・多層的な比喩・カタカナ英語の直訳は禁止');
+  });
+
   it('lists source failures when notes present', () => {
     const p = buildPrompt({ ...bundle, notes: [{ source: 'Coinalyze', message: 'oi: 500' }] },
       [], btcConfig, '2026-06-13 15:06');
