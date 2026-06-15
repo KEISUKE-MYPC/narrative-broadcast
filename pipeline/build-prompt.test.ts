@@ -33,11 +33,12 @@ describe('buildPrompt', () => {
     expect(p).toContain('独自の造語・多層的な比喩・カタカナ英語の直訳は禁止');
   });
 
-  it('embeds the gold-sample as a few-shot style anchor with a no-copy instruction', () => {
+  it('embeds the gold-sample excerpt as a craft checklist with a no-copy instruction', () => {
     const p = buildPrompt(bundle, [], btcConfig, '2026-06-13 15:06');
     expect(p).toContain('文体の手本');
-    expect(p).toContain('内容は流用禁止');
-    expect(p).toContain('ビットコインが自分の言葉を失った週'); // 手本本文が埋め込まれている
+    expect(p).toContain('リードで主張を1行で言い切る'); // 書き方チェックリスト
+    expect(p).toContain('一切流用しない'); // 丸写し禁止の厳守ルール
+    expect(p).toContain('【本文の書き方例】'); // 縮小版の抜粋が入っている
   });
 
   it('lists source failures when notes present', () => {
