@@ -29,7 +29,7 @@ export function summarizeKeyData(b: FetchBundle, cfg: AssetConfig): string {
   return parts.join('・');
 }
 
-async function collect(cfg: AssetConfig): Promise<FetchBundle> {
+export async function collect(cfg: AssetConfig): Promise<FetchBundle> {
   const notes: SourceNote[] = [];
   const safe = async <T>(label: string, fn: () => Promise<T>): Promise<T | null> => {
     try { return await fn(); }
