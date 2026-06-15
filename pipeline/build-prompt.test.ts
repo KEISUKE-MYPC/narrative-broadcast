@@ -33,6 +33,13 @@ describe('buildPrompt', () => {
     expect(p).toContain('独自の造語・多層的な比喩・カタカナ英語の直訳は禁止');
   });
 
+  it('embeds the gold-sample as a few-shot style anchor with a no-copy instruction', () => {
+    const p = buildPrompt(bundle, [], btcConfig, '2026-06-13 15:06');
+    expect(p).toContain('文体の手本');
+    expect(p).toContain('内容は流用禁止');
+    expect(p).toContain('ビットコインが自分の言葉を失った週'); // 手本本文が埋め込まれている
+  });
+
   it('lists source failures when notes present', () => {
     const p = buildPrompt({ ...bundle, notes: [{ source: 'Coinalyze', message: 'oi: 500' }] },
       [], btcConfig, '2026-06-13 15:06');

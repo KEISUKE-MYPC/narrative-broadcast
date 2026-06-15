@@ -1,4 +1,5 @@
 import type { FetchBundle, AssetConfig } from './types';
+import { GOLD_SAMPLE } from './gold-sample';
 
 const GUARDRAILS = `# 厳守ルール（runbook §1/§4）
 1. スコア系（Fear&Greed, sentiment_balance等）を結論にしない。「どう語られているか」の構造で論じる。
@@ -38,13 +39,18 @@ export function buildPrompt(
   const recentBlock = recentAngles.length
     ? `\n# 直近の支配ナラティブ（これらと書き出し・比喩・切り口を被らせない）\n${recentAngles.map((a, i) => `${i + 1}. ${a.slice(0, 400)}`).join('\n')}\n`
     : '';
+  const goldBlock = `\n# 文体の手本（書き方だけ真似る・内容は流用禁止）
+下記はBTCの過去記事のプロ品質サンプル。真似るのは「リードで主張を1行で言い切る／全段落が1本のテーゼを証明する／短文と長文で緩急をつける／専門用語は残し造語・多層比喩は使わない／見出しの副題で中身を直接書く」という構成・文体・リズムだけ。書き出しの文・比喩・結論・「自分の言葉を失った」という切り口・このサンプルの数値や固有名詞は一切流用しない。今サイクルの実データから新しい切り口で書く。
+--- 手本ここから ---
+${GOLD_SAMPLE}
+--- 手本ここまで ---\n`;
   return `あなたは「Narrative Broadcast」の書き手。${cfg.promptIntro}
 
 ${GUARDRAILS}
 ${baseline}
 # 今サイクルの実データ（${asofJST} JST 取得）
 ${fmtData(bundle)}
-${notesBlock}${recentBlock}
+${notesBlock}${recentBlock}${goldBlock}
 # 出力形式
 - 冒頭に「> ⚠️ 自動生成｜6ソース」を置く。
 - \`# タイトル\`（支配ナラティブを全角40字以内・煽らない）
