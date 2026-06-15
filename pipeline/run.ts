@@ -59,8 +59,8 @@ async function main() {
   const bundle = await collect(cfg);
   const recent = loadRecentNarratives(5);
   const prompt = buildPrompt(bundle, recent, cfg, datetimeJst(now));
-  const apiKey = process.env.OLLAMA_API_KEY;
-  if (!apiKey) throw new Error('OLLAMA_API_KEY missing');
+  const apiKey = process.env.GEMINI_API_KEY;
+  if (!apiKey) throw new Error('GEMINI_API_KEY missing');
   const article = await generateArticle(prompt, { apiKey });
 
   if (noPublish) {
