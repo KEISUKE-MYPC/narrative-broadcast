@@ -18,7 +18,8 @@ export default function Home() {
     slug: c.slug,
     short: c.short,
     label: c.label,
-    color: c.ogAccent,
+    color: c.brand,
+    gradient: c.brandGradient,
     points: rows
       .filter((r) => categoryFromSlug(r.slug).slug === c.slug)
       .map((r) => ({ datetime: r.datetime, strength: r.strength, narrative: r.narrative })),

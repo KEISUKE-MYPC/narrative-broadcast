@@ -10,6 +10,8 @@ export type Category = {
   symbol: string; // アイキャッチのシンボル（例: '₿'）
   accent: string; // 識別用アクセント色（CSS変数 or oklch・サイト内表示用）
   ogAccent: string; // OG画像用の実色（CSS変数は使えないため oklch/hex 実値）
+  brand: string; // 各トークンのブランド色（チャート線・タブ用の実hex）
+  brandGradient?: [string, string]; // 線をグラデにする場合の[開始,終了]（例: SOLの紫→緑）
 };
 
 export const CATEGORIES: Category[] = [
@@ -21,6 +23,7 @@ export const CATEGORIES: Category[] = [
     symbol: '₿',
     accent: 'var(--accent)',
     ogAccent: '#5cc6da', // OG画像用の実色（≒ --accent oklch(0.78 0.10 205)）
+    brand: '#F7931A', // Bitcoinブランドのオレンジ
   },
   {
     slug: 'eth',
@@ -30,6 +33,7 @@ export const CATEGORIES: Category[] = [
     symbol: 'Ξ',
     accent: 'var(--accent)',
     ogAccent: '#8a92b2',
+    brand: '#627EEA', // Ethereumブランドのペリウィンクル
   },
   {
     slug: 'xrp',
@@ -39,6 +43,7 @@ export const CATEGORIES: Category[] = [
     symbol: '✕',
     accent: 'var(--accent)',
     ogAccent: '#7e8a99',
+    brand: '#CFD6DD', // XRPは公式が黒/白のためダーク背景で映えるシルバー
   },
   {
     slug: 'sol',
@@ -48,6 +53,8 @@ export const CATEGORIES: Category[] = [
     symbol: '◎',
     accent: 'var(--accent)',
     ogAccent: '#66f9a1',
+    brand: '#14F195', // Solanaグラデの代表色（タブ・ドット用）
+    brandGradient: ['#9945FF', '#14F195'], // 公式グラデ 紫→緑（線用）
   },
 ];
 

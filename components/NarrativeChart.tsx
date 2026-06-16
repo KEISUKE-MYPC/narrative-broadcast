@@ -31,9 +31,11 @@ function fmtTick(value: string): string {
 export function NarrativeChart({
   data,
   color = ACCENT,
+  gradient,
 }: {
   data: ChartPoint[];
   color?: string;
+  gradient?: [string, string];
 }) {
   // ResponsiveContainerはSSR時に寸法を測れないため、マウント後のみ描画する
   const [mounted, setMounted] = useState(false);
@@ -85,6 +87,15 @@ export function NarrativeChart({
           {mounted && (
             <ResponsiveContainer>
               <LineChart data={series} margin={MARGIN}>
+                {gradient && (
+                  <defs>
+                    {/* 線用グラデ（左=古い→右=最新）。SOLの紫→緑など */}
+                    <linearGradient id="line-grad" x1="0" y1="0" x2="1" y2="0">
+                      <stop offset="0" stopColor={gradient[0]} />
+                      <stop offset="1" stopColor={gradient[1]} />
+                    </linearGradient>
+                  </defs>
+                )}
                 <XAxis
                   dataKey="datetime"
                   height={X_H}
@@ -114,7 +125,7 @@ export function NarrativeChart({
                 <Line
                   type="monotone"
                   dataKey="strength"
-                  stroke={color}
+                  stroke={gradient ? 'url(#line-grad)' : color}
                   strokeWidth={2.5}
                   dot={{ r: 3, fill: color, strokeWidth: 0 }}
                   activeDot={{ r: 5, fill: color, strokeWidth: 0 }}

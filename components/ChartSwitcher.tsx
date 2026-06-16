@@ -7,6 +7,7 @@ export type ChartSeries = {
   short: string;
   label: string;
   color: string;
+  gradient?: [string, string]; // 線をグラデにする場合の[開始,終了]
   points: ChartPoint[];
 };
 
@@ -37,7 +38,7 @@ export function ChartSwitcher({ series }: { series: ChartSeries[] }) {
         })}
       </div>
       <div className="chart-frame">
-        <NarrativeChart data={current.points} color={current.color} />
+        <NarrativeChart data={current.points} color={current.color} gradient={current.gradient} />
       </div>
       <p className="chart-current">
         表示中：<strong>{current.label}</strong> — 強度の推移
