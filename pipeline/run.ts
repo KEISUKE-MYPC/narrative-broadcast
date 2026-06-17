@@ -14,6 +14,7 @@ import { fetchPolymarket } from './fetch/polymarket';
 import { fetchDefiLlama } from './fetch/defillama';
 import { loadRecentNarratives } from './lib/recent';
 import { buildPrompt } from './build-prompt';
+import { buildDataTable, appendDataTable } from './data-table';
 import { generateArticle } from './generate';
 import { publish, datetimeJst } from './publish';
 import type { AssetConfig } from './types';
@@ -61,7 +62,9 @@ async function main() {
   const prompt = buildPrompt(bundle, recent, cfg, datetimeJst(now));
   const apiKey = process.env.GEMINI_API_KEY;
   if (!apiKey) throw new Error('GEMINI_API_KEY missing');
-  const article = await generateArticle(prompt, { apiKey });
+  const raw = await generateArticle(prompt, { apiKey });
+  // 取得済み実データから計器盤テーブルを組み、免責文の直前に追記（値・出典が常に正確）
+  const article = appendDataTable(raw, buildDataTable(bundle, cfg));
 
   if (noPublish) {
     const out = `/tmp/${cfg.key}-dryrun.md`;
