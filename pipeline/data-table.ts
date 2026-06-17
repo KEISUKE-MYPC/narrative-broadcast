@@ -42,7 +42,7 @@ export function buildDataTable(b: FetchBundle, cfg: AssetConfig): string {
   if (b.odds) {
     // 取得失敗(NaN)のターゲットは除外。全滅なら行ごと省略。
     const valid = Object.entries(b.odds.targets).filter(([, v]) => Number.isFinite(v));
-    if (valid.length) rows.push({ label: '年末オッズ', value: valid.map(([k, v]) => `$${k}:${v}%`).join(' / '), source: 'Polymarket' });
+    if (valid.length) rows.push({ label: '年末オッズ', value: valid.map(([k, v]) => `$${k}:${pct(v)}`).join(' / '), source: 'Polymarket' });
   }
 
   if (!rows.length) return '';
