@@ -3,6 +3,7 @@ import { getArticleSlugs } from '@/lib/articles';
 import { getIndexRows } from '@/lib/index-parser';
 import { ARCHIVE_PER_PAGE } from '@/lib/pagination';
 import { publishedISO } from '@/lib/seo';
+import { CATEGORIES } from '@/lib/categories';
 
 const BASE = 'https://narrative-broadcast.com';
 
@@ -24,11 +25,18 @@ export default function sitemap(): MetadataRoute.Sitemap {
   for (let p = 2; p <= total; p++) {
     archivePages.push({ url: `${BASE}/archive/${p}`, lastModified: latest, changeFrequency: 'weekly', priority: 0.4 });
   }
+  // 分野ハブ /c/{slug}（各銘柄のカテゴリページ。記事より上位の更新頻度・優先度）
+  const categoryPages: MetadataRoute.Sitemap = CATEGORIES.map((c) => ({
+    url: `${BASE}/c/${c.slug}`,
+    lastModified: latest,
+    changeFrequency: 'hourly',
+    priority: 0.7,
+  }));
   const articles: MetadataRoute.Sitemap = slugs.map((slug) => ({
     url: `${BASE}/articles/${slug}`,
     lastModified: publishedISO(slug) || undefined,
     changeFrequency: 'monthly',
     priority: 0.6,
   }));
-  return [...staticPages, ...archivePages, ...articles];
+  return [...staticPages, ...categoryPages, ...archivePages, ...articles];
 }
