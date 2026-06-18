@@ -4,9 +4,10 @@ import type { OddsData, AssetConfig } from '../types';
 // 旧形式の配列も念のため許容する。
 type Raw = { events?: { slug: string; markets: { groupItemTitle: string; outcomePrices: string | string[] }[] }[] };
 
-// '$55,000' / '↑ 55,000' -> '55000'（市場名は「hit $X」なので上下の矢印は落としてよい）
+// '$55,000' / '↑ 55,000' / '↓ 3.80' -> '55000' / '3.80'
+// 市場名は「hit $X」なので上下の矢印は落としてよい。小数(XRP等)はドットを残す。
 function normalizeTitle(title: string): string {
-  return title.replace(/[^0-9]/g, '');
+  return title.replace(/[^0-9.]/g, '');
 }
 
 // outcomePrices をJSON文字列でも配列でも先頭(YES側)の数値にする。失敗時はnull。
@@ -29,7 +30,9 @@ export function parsePolymarket(raw: Raw, cfg: AssetConfig): OddsData {
     for (const m of ev.markets) {
       const key = normalizeTitle(m.groupItemTitle);
       const p = firstPrice(m.outcomePrices);
-      if (cfg.oddsTargets.includes(key) && p != null) {
+      // p>=0.999 は「既に到達済み(=100%)」で情報量がなく、同一価格の↑/↓重複キーの
+      // 不要な側でもあるためスキップ。意味のあるオッズだけ採用する。
+      if (cfg.oddsTargets.includes(key) && p != null && p < 0.999) {
         targets[key] = p * 100;
       }
     }
