@@ -60,7 +60,7 @@ export default async function CategoryPage({ params }: { params: Promise<{ slug:
             <span className="ja">強度の推移</span>
           </h2>
           <div className="chart-frame">
-            <NarrativeChart data={points} color={cat.ogAccent} />
+            <NarrativeChart data={points} color={cat.brand} gradient={cat.brandGradient} />
           </div>
         </section>
       )}
