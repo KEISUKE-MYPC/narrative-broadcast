@@ -12,6 +12,7 @@ export type Category = {
   ogAccent: string; // OG画像用の実色（CSS変数は使えないため oklch/hex 実値）
   brand: string; // 各トークンのブランド色（チャート線・タブ用の実hex）
   brandGradient?: [string, string]; // 線をグラデにする場合の[開始,終了]（例: SOLの紫→緑）
+  metaCategory?: boolean; // 横断メタカテゴリ（銘柄別強度チャートから除外する）
 };
 
 export const CATEGORIES: Category[] = [
@@ -55,6 +56,17 @@ export const CATEGORIES: Category[] = [
     ogAccent: '#66f9a1',
     brand: '#14F195', // Solanaグラデの代表色（タブ・ドット用）
     brandGradient: ['#9945FF', '#14F195'], // 公式グラデ 紫→緑（線用）
+  },
+  {
+    slug: 'weekly',
+    label: '週次メタナラティブ',
+    short: '週次',
+    description: '市場全体の語りを横断的に統合する週次レポート',
+    symbol: '◴',
+    accent: 'var(--accent)',
+    ogAccent: '#d9a441', // 横断レポート用のアンバー
+    brand: '#E0B341', // フィード/タブ用のアンバー実hex
+    metaCategory: true,
   },
 ];
 

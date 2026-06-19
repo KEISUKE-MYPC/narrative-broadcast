@@ -13,8 +13,8 @@ export default function Home() {
   const latest = rows[0];
   const recent = rows.slice(0, 9);
 
-  // 分野ごとの強度系列（データのある分野のみ・全期間／チャート側で横スクロール表示）
-  const series: ChartSeries[] = CATEGORIES.map((c) => ({
+  // 分野ごとの強度系列（metaCategory を除いた銘柄別・データのある分野のみ・全期間／チャート側で横スクロール表示）
+  const series: ChartSeries[] = CATEGORIES.filter((c) => !c.metaCategory).map((c) => ({
     slug: c.slug,
     short: c.short,
     label: c.label,
