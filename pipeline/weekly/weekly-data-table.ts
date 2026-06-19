@@ -12,7 +12,7 @@ function priceWow(a: AssetWeek): string {
   return `${pct >= 0 ? '+' : ''}${pct.toFixed(2)}%`;
 }
 
-// 週初→週末で消えた/現れたトレンド語を要約
+// 週末に新たに現れたトレンド語を最大4語列挙
 function trendShift(a: AssetWeek): string {
   const split = (s?: string) => (s ? s.split('、').map((x) => x.trim()).filter(Boolean) : []);
   const t0 = new Set(split(a.first.dashboard['トレンド語']));

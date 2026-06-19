@@ -18,7 +18,7 @@ export function publishWeekly(opts: {
   mkdirSync(dirname(abs), { recursive: true });
   writeFileSync(abs, opts.markdown, 'utf8');
 
-  const indexPath = join(opts.root, 'articles', 'INDEX.md');
+  const indexPath = join(opts.root, WEEKLY_REF.outputDir, 'INDEX.md');
   const indexMd = readFileSync(indexPath, 'utf8');
   const prev = previousStrength(indexMd, 'weekly');
   const strength = opts.compositeStrength; // 合成強度は決定論的に算出済み
@@ -26,7 +26,7 @@ export function publishWeekly(opts: {
     datetimeJst: datetimeJst(opts.now), cycle: '7d',
     title: extractTitle(opts.markdown),
     strength, strengthDelta: formatDelta(strength, prev),
-    keyData: opts.keyData, slug: relToSlug(rel, 'articles'),
+    keyData: opts.keyData, slug: relToSlug(rel, WEEKLY_REF.outputDir),
   });
   writeFileSync(indexPath, insertIndexRow(indexMd, row), 'utf8');
   return { path: rel, skipped: false };
