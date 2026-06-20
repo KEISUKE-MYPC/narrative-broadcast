@@ -13,7 +13,7 @@ function jstParts(d: Date, tz: string) {
   return p; // {year,month,day,hour,minute}
 }
 
-export function articleRelPath(cfg: AssetConfig, now: Date, tz = 'Asia/Tokyo'): string {
+export function articleRelPath(cfg: { outputDir: string; cycle: string; key: string }, now: Date, tz = 'Asia/Tokyo'): string {
   const p = jstParts(now, tz);
   const name = `${p.year}-${p.month}-${p.day}-${p.hour}${p.minute}-${cfg.cycle}-${cfg.key}.md`;
   return `${cfg.outputDir}/${p.year}/${p.month}/${name}`;

@@ -1,0 +1,35 @@
+name: publish-weekly
+on:
+  # 発火は外部cron(cron-job.org)からのworkflow_dispatch。日曜21:00 JSTにトリガーを設定する。
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+# 6h公開ジョブと同じ INDEX.md を触るため直列化して競合を避ける
+concurrency:
+  group: publish-btc
+  cancel-in-progress: false
+
+jobs:
+  generate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-node@v6
+        with:
+          node-version: '24'
+      - run: npm ci
+      - name: Generate weekly article
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+        run: npx tsx pipeline/weekly/run-weekly.ts
+      - name: Commit & push to main
+        run: |
+          git config user.name "KEISUKE-MYPC"
+          git config user.email "keisukematsu0820@gmail.com"
+          git add -A
+          if git diff --cached --quiet; then echo "no changes"; exit 0; fi
+          git commit -m "publish: 週次メタナラティブ統合 (auto)"
+          git pull --rebase origin main
+          git push origin HEAD:main
