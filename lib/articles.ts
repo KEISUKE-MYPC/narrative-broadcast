@@ -33,3 +33,16 @@ export function getArticleBySlug(slug: string): Article | null {
   if (!existsSync(file)) return null;
   return { slug, raw: readFileSync(file, 'utf8') };
 }
+
+// slug一覧から、ファイル名が「{stamp}-…-{topic}」に一致するものを返す（純関数）。
+export function findSlugByStampTopic(slugs: string[], stamp: string, topic: string): string | null {
+  return slugs.find((s) => {
+    const file = s.split('/').pop() ?? s;
+    return file.startsWith(`${stamp}-`) && file.endsWith(`-${topic}`);
+  }) ?? null;
+}
+
+// stamp + topic から記事slugを解決する（無ければ null）。
+export function resolveArticleByStampTopic(stamp: string, topic: string): string | null {
+  return findSlugByStampTopic(getArticleSlugs(), stamp, topic);
+}
