@@ -15,6 +15,10 @@ describe('legacyRedirect', () => {
   it('旧カテゴリページング → 新ページング', () => {
     expect(legacyRedirect('/c/btc/2')).toBe('/crypto/btc/page/2');
   });
+  it('旧命名(HHMM無し)の最初期記事URLを新URLへ301', () => {
+    expect(legacyRedirect('/articles/2026/06/2026-06-04-6h-btc')).toBe('/crypto/btc/2026-06-04-2325');
+    expect(legacyRedirect('/articles/2026/06/2026-06-04-6h-btc/')).toBe('/crypto/btc/2026-06-04-2325');
+  });
   it('対象外は null', () => {
     expect(legacyRedirect('/')).toBeNull();
     expect(legacyRedirect('/archive')).toBeNull();

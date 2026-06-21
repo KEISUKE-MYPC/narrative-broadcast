@@ -2,7 +2,7 @@ import { getArticleSlugs, getArticleBySlug, resolveArticleByStampTopic } from '@
 import { renderMarkdown, extractToc } from '@/lib/markdown';
 import { categoryFromSlug } from '@/lib/categories';
 import { domainOf } from '@/lib/taxonomy';
-import { stampFromSlug, articleUrl } from '@/lib/urls';
+import { stampFromSlug } from '@/lib/urls';
 import { getIndexRowBySlug } from '@/lib/index-parser';
 import { Eyecatch } from '@/components/Eyecatch';
 import { TableOfContents } from '@/components/TableOfContents';

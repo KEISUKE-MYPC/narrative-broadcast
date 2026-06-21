@@ -1,5 +1,5 @@
 // ページ送り。ページ1は basePath、2以降は <basePath>/<n>。
-// 例: basePath='/archive' → /archive, /archive/2 ／ basePath='/c/btc' → /c/btc, /c/btc/2
+// 例: basePath='/archive' → /archive, /archive/2 ／ トピック別は pageHref で URL 生成
 function href(basePath: string, p: number): string {
   return p <= 1 ? basePath : `${basePath}/${p}`;
 }
