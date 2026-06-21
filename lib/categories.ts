@@ -13,6 +13,7 @@ export type Category = {
   brand: string; // 各トークンのブランド色（チャート線・タブ用の実hex）
   brandGradient?: [string, string]; // 線をグラデにする場合の[開始,終了]（例: SOLの紫→緑）
   metaCategory?: boolean; // 横断メタカテゴリ（銘柄別強度チャートから除外する）
+  domain: string; // 所属ドメイン（例: 'crypto'）
 };
 
 export const CATEGORIES: Category[] = [
@@ -25,6 +26,7 @@ export const CATEGORIES: Category[] = [
     accent: 'var(--accent)',
     ogAccent: '#5cc6da', // OG画像用の実色（≒ --accent oklch(0.78 0.10 205)）
     brand: '#F7931A', // Bitcoinブランドのオレンジ
+    domain: 'crypto',
   },
   {
     slug: 'eth',
@@ -35,6 +37,7 @@ export const CATEGORIES: Category[] = [
     accent: 'var(--accent)',
     ogAccent: '#8a92b2',
     brand: '#627EEA', // Ethereumブランドのペリウィンクル
+    domain: 'crypto',
   },
   {
     slug: 'xrp',
@@ -45,6 +48,7 @@ export const CATEGORIES: Category[] = [
     accent: 'var(--accent)',
     ogAccent: '#7e8a99',
     brand: '#CFD6DD', // XRPは公式が黒/白のためダーク背景で映えるシルバー
+    domain: 'crypto',
   },
   {
     slug: 'sol',
@@ -56,6 +60,7 @@ export const CATEGORIES: Category[] = [
     ogAccent: '#66f9a1',
     brand: '#14F195', // Solanaグラデの代表色（タブ・ドット用）
     brandGradient: ['#9945FF', '#14F195'], // 公式グラデ 紫→緑（線用）
+    domain: 'crypto',
   },
   {
     slug: 'weekly',
@@ -67,6 +72,7 @@ export const CATEGORIES: Category[] = [
     ogAccent: '#d9a441', // 横断レポート用のアンバー
     brand: '#E0B341', // フィード/タブ用のアンバー実hex
     metaCategory: true,
+    domain: 'crypto',
   },
 ];
 
