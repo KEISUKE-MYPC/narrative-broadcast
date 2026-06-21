@@ -1,3 +1,5 @@
+import { articleUrl } from './urls';
+
 export const SITE_URL = 'https://narrative-broadcast.com';
 export const SITE_NAME = 'Narrative Broadcast';
 export const SITE_DESCRIPTION = '市場参加者の物語と認知を構造分析するナラティブ観測メディア';
@@ -46,7 +48,7 @@ export function organizationJsonLd() {
 export function articleJsonLd(args: {
   slug: string; title: string; description: string; image: string;
 }) {
-  const url = absoluteUrl(`/articles/${args.slug}`);
+  const url = absoluteUrl(articleUrl(args.slug));
   const published = publishedISO(args.slug);
   return {
     '@context': 'https://schema.org',
@@ -75,7 +77,7 @@ export function breadcrumbJsonLd(args: { slug: string; categoryShort: string }) 
     itemListElement: [
       { '@type': 'ListItem', position: 1, name: 'ホーム', item: SITE_URL },
       { '@type': 'ListItem', position: 2, name: 'アーカイブ', item: absoluteUrl('/archive') },
-      { '@type': 'ListItem', position: 3, name: args.categoryShort, item: absoluteUrl(`/articles/${args.slug}`) },
+      { '@type': 'ListItem', position: 3, name: args.categoryShort, item: absoluteUrl(articleUrl(args.slug)) },
     ],
   };
 }

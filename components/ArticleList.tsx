@@ -1,12 +1,13 @@
 import type { IndexRow } from '@/lib/index-parser';
 import { Eyecatch } from '@/components/Eyecatch';
+import { articleUrl } from '@/lib/urls';
 
 export function ArticleList({ rows }: { rows: IndexRow[] }) {
   return (
     <ul className="card-grid">
       {rows.map((r) => (
         <li key={r.slug} className="analysis-card">
-          <a href={`/articles/${r.slug}`}>
+          <a href={articleUrl(r.slug)}>
             <Eyecatch slug={r.slug} strength={r.strength} variant="card" />
             <div className="ac-body">
               <h3 className="ac-title">{r.narrative}</h3>

@@ -1,6 +1,8 @@
-import { getArticleSlugs, getArticleBySlug } from '@/lib/articles';
+import { getArticleSlugs, getArticleBySlug, resolveArticleByStampTopic } from '@/lib/articles';
 import { renderMarkdown, extractToc } from '@/lib/markdown';
 import { categoryFromSlug } from '@/lib/categories';
+import { domainOf } from '@/lib/taxonomy';
+import { stampFromSlug, articleUrl } from '@/lib/urls';
 import { getIndexRowBySlug } from '@/lib/index-parser';
 import { Eyecatch } from '@/components/Eyecatch';
 import { TableOfContents } from '@/components/TableOfContents';
@@ -12,23 +14,28 @@ import { ArticleList } from '@/components/ArticleList';
 import { getRelatedRows } from '@/lib/related';
 import { shortTitle } from '@/lib/title';
 
+export const dynamicParams = false;
+
 export function generateStaticParams() {
-  return getArticleSlugs().map((slug) => ({ slug: slug.split('/') }));
+  return getArticleSlugs().map((slug) => {
+    const topic = categoryFromSlug(slug).slug;
+    return { domain: domainOf(topic), topic, stamp: stampFromSlug(slug) };
+  });
 }
 
 export async function generateMetadata({
   params,
 }: {
-  params: Promise<{ slug: string[] }>;
+  params: Promise<{ domain: string; topic: string; stamp: string }>;
 }) {
-  const { slug } = await params;
-  const slugPath = slug.join('/');
+  const { domain, topic, stamp } = await params;
+  const slugPath = resolveArticleByStampTopic(stamp, topic);
+  if (!slugPath) return {};
   const row = getIndexRowBySlug(slugPath);
   const title = shortTitle(row?.narrative ?? 'ナラティブ分析');
-  // OGは分野ごとの1枚を使い回す（記事数に依存せずビルドが軽い）
   const ogImage = `/og/${categoryFromSlug(slugPath).slug}`;
   const description = getArticleDescription(slugPath);
-  const canonical = `/articles/${slugPath}`;
+  const canonical = `/${domain}/${topic}/${stamp}`;
   const publishedTime = publishedISO(slugPath);
   return {
     title,
@@ -49,10 +56,11 @@ export async function generateMetadata({
 export default async function ArticlePage({
   params,
 }: {
-  params: Promise<{ slug: string[] }>;
+  params: Promise<{ domain: string; topic: string; stamp: string }>;
 }) {
-  const { slug } = await params;
-  const slugPath = slug.join('/');
+  const { topic, stamp } = await params;
+  const slugPath = resolveArticleByStampTopic(stamp, topic);
+  if (!slugPath) notFound();
   const article = getArticleBySlug(slugPath);
   if (!article) notFound();
   const html = await renderMarkdown(article.raw);
